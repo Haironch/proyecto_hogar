@@ -14,9 +14,9 @@ const styleFlex = {
 };
 
 const ChildrenWrapper = styled.div`
-  width: 100%;
-  height: calc(100vh);
-  background-color: #202020;
+  width: 100vw;
+  height: 100vh;
+  background-color: #7bb422;
   padding: 0 80px;
   color: ${colors.primaryFont};
 `;
@@ -24,7 +24,8 @@ const GamesContainer = styled.div`
   ${styleFlex};
   height: calc(100% - 150px);
   width: 100%;
-  background-color: blueviolet;
+  background: #8AC926;
+
 
   .games {
     ${styleFlex};
@@ -60,16 +61,16 @@ function Children() {
       <ChildNavbar child={child} />
       <GamesContainer>
         <div className="games">
-          <Link to="/admin/1/1">
+          <Link to="/admin/1/juego/1">
             <div>Juego 1</div>
           </Link>
-          <Link to="/admin/1/2">
+          <Link to="/admin/1/juego/2">
             <div>Juego 2</div>
           </Link>
-          <Link to="/admin/1/3">
+          <Link to="/admin/1/juego/3">
             <div>Juego 3</div>
           </Link>
-          <Link to="/admin/1/4">
+          <Link to="/admin/1/juego/4">
             <div>Juego 4</div>
           </Link>
         </div>

@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './pages/Login'
 import Admin from './pages/Admin'
 import Children from './pages/Children'
-import SelectedGame from './pages/SelectedGame'
+import Games from './pages/Games'
 import AdminPanel from './pages/AdminPanel'
 import AdminPanelSelectedChild from './pages/AdminPanelSelectedChild'
 import './App.css'
@@ -20,7 +20,7 @@ function App() {
       <Route path='/admin/panel' element={<AdminPanel />}/>
       <Route path='/admin/panel/:childId' element={<AdminPanelSelectedChild />}/>
       <Route path='/admin/:childId' element={<Children/>}/>
-      <Route path='/admin/:childId/:gameId' element={<SelectedGame />}/>
+      <Route path='/admin/:childId/juego/:gameId' element={<Games />}/>
       <Route path='/menu' element={<h1>menu</h1>}/>
       <Route path='/juegonumerico' element={<h1>juegonumerico</h1>}/>
       <Route path='/juegogeometrico' element={<h1>juegogeometrico</h1>}/>

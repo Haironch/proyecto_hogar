@@ -10,7 +10,7 @@ const schema = yup.object ({
 })
 
 const colors = {
-  primary: "#202020",
+  primary: "#8AC926",
   secondary: "#ffffff",
 fontfamily: "'Chakra Petch', sans-serif"
 }
@@ -27,7 +27,6 @@ const HomeWrapper = styled("div")`
 const Form = styled.form`
   width: 500px;
   height: 400px;
-  border: 1px solid gray;
   padding: 24px;
 
   .user-logo {
@@ -68,8 +67,6 @@ const navigate = useNavigate()
 
   return (
     <HomeWrapper>
-  <h1>hola</h1>
-  
     <Form onSubmit={handleSubmit (onSubmit)}>
       <div className="user-logo">
         <i className="fa-solid fa-user-tie"></i>

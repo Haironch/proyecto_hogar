@@ -6,9 +6,9 @@ import AdminNavbar from "../components/AdminNavbar";
 import CreateUpdateChildModal from "../components/CreateUpdateChildModal";
 
 const colors = {
-  primary: "#202020",
-  secondary: "#ffffff",
-  primaryHover: "black",
+  primary: "#8AC926",
+  secondary: "#003566",
+  primaryHover: "#0077B6",
   fontfamily: "'Chakra Petch', sans-serif",
 };
 
@@ -43,7 +43,7 @@ const AdminSubWrapper = styled.div`
     padding: 32px 16px;
     max-height: 600px;
     overflow-y: auto;
-    background-color: gray;
+    background-color: #1982C4;
     border-radius: 4px;
     
     a {
@@ -51,7 +51,7 @@ const AdminSubWrapper = styled.div`
       margin-bottom: 32px;
       color: white;
       font-size: 18px;
-      border: 1px solid red;
+      //border: 1px solid red;
       padding: 16px 12px;
       border-radius: 4px;
       transition: 300ms all;
@@ -70,6 +70,8 @@ const AddChildButton = styled.button`
   right: 56px;
   border: none;
   box-shadow: 0 5px 10px 0px green;
+  
+  
   
   ${styleFlex};
   padding: 8px 18px;
