@@ -7,6 +7,7 @@ import Games from './pages/Games'
 import AdminPanel from './pages/AdminPanel'
 import AdminPanelSelectedChild from './pages/AdminPanelSelectedChild'
 import './App.css'
+import 'react-jigsaw-puzzle/lib/jigsaw-puzzle.css';
 
 function App() {
   const [count, setCount] = useState(0)

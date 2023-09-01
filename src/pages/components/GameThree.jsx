@@ -6,12 +6,6 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import "../../App.css";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
-import tringuloImg from "/games-images/tringulo.png";
-import cuadradoImg from "/games-images/cuadrado.jpeg";
-import hexagonoImg from "/games-images/hexagono.png";
-import pentagonoImg from "/games-images/pentagono.jpg";
-import circuloImg from "/games-images/circulo.png";
-
 const colors = {
   primaryFont: "#fff",
 };
@@ -114,52 +108,36 @@ export default function GameThree() {
         if (letter === selectedLetter) {
           setL1(true);
           removeLetter();
-          // console.log("a true");
         }
         return;
       case "b":
         if (letter === selectedLetter) {
           setL2(true);
           removeLetter();
-          // console.log("b true");
-          // setSelectedLetters(prevItems => [...prevItems, "b"]);
-          // selectedLetter("_")
         }
         return;
       case "e":
         if (letter === selectedLetter) {
           setL3(true);
           removeLetter();
-          // console.log("e true");
-          // setSelectedLetters(prevItems => [...prevItems, "e"]);
-          // selectedLetter("_")
         }
         return;
       case "i":
         if (letter === selectedLetter) {
           setL4(true);
           removeLetter();
-          // console.log("i true");
-          // setSelectedLetters(prevItems => [...prevItems, "i"]);
-          // selectedLetter("_")
         }
         return;
       case "o":
         if (letter === selectedLetter) {
           setL5(true);
           removeLetter();
-          // console.log("o true");
-          // setSelectedLetters(prevItems => [...prevItems, "o"]);
-          // selectedLetter("_")
         }
         return;
       case "u":
         if (letter === selectedLetter) {
           setL6(true);
           removeLetter();
-          // console.log("u true");
-          // setSelectedLetters(prevItems => [...prevItems, "u"]);
-          // selectedLetter("_")
         }
         return;
       default:
@@ -178,7 +156,13 @@ export default function GameThree() {
   function setSelectedRandomLetter() {
     console.log(availableLetters);
     if (l1 && l2 && l3 && l4 && l5 && l6) {
-      alert("usted gano el juego");
+      Swal.fire({
+        title: 'Ganador!',
+        text: '',
+        icon: 'success',
+        confirmButtonColor: '#8338ec',
+        confirmButtonText: 'Cool'
+      })  
       // request to DB...
     }
 
@@ -192,23 +176,10 @@ export default function GameThree() {
     const newShownElement = availableLetters[randomIndex];
 
     setSelectedLetter(newShownElement);
-
-    // // Eliminar el elemento mostrado de los disponibles
-    // setAvailableLetters((prevAvailableElements) =>
-    //   prevAvailableElements.filter((element) => element !== newShownElement)
-    // );
   }
 
   useEffect(() => {
     setSelectedRandomLetter();
-    // console.log("changed")
-    // for (let i = componentArray.length - 1; i > 0; i--) {
-    //   const j = Math.floor(Math.random() * (i + 1)); // Generar un índice aleatorio
-    //   [componentArray[i], componentArray[j]] = [
-    //     componentArray[j],
-    //     componentArray[i],
-    //   ]; // Intercambiar elementos
-    // }
   }, [l1, l2, l3, l4, l5, l6]);
 
   const componentArray = [
@@ -244,9 +215,6 @@ export default function GameThree() {
           </SelectedLetter>
           <LettersGroup>
             <div className="letters-container">
-              {/*{componentArray.map((component) => (
-                <div key={component.key}>{component}</div>
-              ))}*/}
               {shownLetters.map((letter) => (
                 <div
                   onClick={() => verifyLetter(letter)}

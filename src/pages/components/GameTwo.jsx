@@ -6,11 +6,11 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import "../../App.css";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 
-import tringuloImg from '/games-images/tringulo.png'
-import cuadradoImg from '/games-images/cuadrado.jpeg'
-import hexagonoImg from '/games-images/hexagono.png'
-import pentagonoImg from '/games-images/pentagono.jpg'
-import circuloImg from '/games-images/circulo.png'
+import tringuloImg from '/games-images/game2/tringulo.png'
+import cuadradoImg from '/games-images/game2/cuadrado.jpeg'
+import hexagonoImg from '/games-images/game2/hexagono.png'
+import pentagonoImg from '/games-images/game2/pentagono.jpg'
+import circuloImg from '/games-images/game2/circulo.png'
 
 
 
