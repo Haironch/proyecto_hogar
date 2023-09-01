@@ -1,3 +1,4 @@
+import axios from 'axios'
 import styled from 'styled-components'
 import {useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -54,15 +55,16 @@ function Home() {
 const navigate = useNavigate()
   const { handleSubmit, register, formState: { errors } } = useForm({resolver: yupResolver (schema)});
 
-  const onSubmit =(data)=>{
-    if (data.username === "hola" && data.password === "123") 
-    {
-      console.log(data)
-     navigate("/admin") 
-    }
-    else{
-      alert("NO SE LOGRO INGRESAR")
-    }
+  const onSubmit = async (formdata)=>{
+    const { data } = await axios.get("/api/login")
+    console.log(data)
+    // if (data.username === "hola" && data.password === "123") 
+    // {
+    // //  navigate("/admin") 
+    // }
+    // else{
+    //   alert("NO SE LOGRO INGRESAR")
+    // }
   }  
 
   return (
