@@ -31,7 +31,7 @@ function ChildNavbar({child}) {
                 <i className="fa-solid fa-user-circle"></i>
             </div>
             <div>
-                <p>{child.first_name} {child.last_name}</p>
+                <p>{child.name} {child.lastname}</p>
             </div>
         </div>
         <div onClick={() => alert("Logout")}>

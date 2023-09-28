@@ -1,20 +1,20 @@
-import axios from 'axios'
-import styled from 'styled-components'
-import {useForm } from 'react-hook-form'
-import * as yup from 'yup'
-import {yupResolver} from '@hookform/resolvers/yup'
-import {useNavigate} from 'react-router-dom'
+import axios from "axios";
+import styled from "styled-components";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from "react-router-dom";
 
-const schema = yup.object ({
+const schema = yup.object({
   username: yup.string().required("Igrese nombre de usuario"),
-  password: yup.string().required("Igrese su contraseña")
-})
+  password: yup.string().required("Igrese su contraseña"),
+});
 
 const colors = {
   primary: "#8AC926",
   secondary: "#ffffff",
-fontfamily: "'Chakra Petch', sans-serif"
-}
+  fontfamily: "'Chakra Petch', sans-serif",
+};
 
 const HomeWrapper = styled("div")`
   display: flex;
@@ -52,41 +52,48 @@ const Button = styled.button`
 `;
 
 function Home() {
-const navigate = useNavigate()
-  const { handleSubmit, register, formState: { errors } } = useForm({resolver: yupResolver (schema)});
+  const navigate = useNavigate();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmit = async (formdata)=>{
-    const { data } = await axios.get("/api/login")
-    console.log(data)
-    // if (data.username === "hola" && data.password === "123") 
-    // {
-    // //  navigate("/admin") 
+  const onSubmit = async (formdata) => {
+     const { data } = await axios.post("/api/login", formdata);
+    // const { data } = await axios.get("/api/getting");
+    console.log(data);
+    // if (data.status_code === 200) {
+    //   navigate("/admin");
+    // } else {
+    //   alert("NO SE LOGRO INGRESAR");
     // }
-    // else{
-    //   alert("NO SE LOGRO INGRESAR")
-    // }
-  }  
+  };
 
   return (
     <HomeWrapper>
-    <Form onSubmit={handleSubmit (onSubmit)}>
-      <div className="user-logo">
-        <i className="fa-solid fa-user-tie"></i>
-      </div>
-      <InputContainer>
-        <input {...register("username")} placeholder='Ingrese su usuario' />
-        {errors.username && <p>{errors.username.message}</p>}
-      </InputContainer>
-      <InputContainer>
-        <input {...register("password")} type="password" placeholder='Ingrese su ontraseña...' />
-        {errors.username && <p>{errors.username.message}</p>}
-      </InputContainer>
-      <InputContainer>
-        <Button>Ingresar</Button>
-      </InputContainer>
-    </Form>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <div className="user-logo">
+          <i className="fa-solid fa-user-tie"></i>
+        </div>
+        <InputContainer>
+          <input {...register("username")} placeholder="Ingrese su usuario" />
+          {errors.username && <p>{errors.username.message}</p>}
+        </InputContainer>
+        <InputContainer>
+          <input
+            {...register("password")}
+            type="password"
+            placeholder="Ingrese su ontraseña..."
+          />
+          {errors.username && <p>{errors.username.message}</p>}
+        </InputContainer>
+        <InputContainer>
+          <Button>Ingresar</Button>
+        </InputContainer>
+      </Form>
     </HomeWrapper>
-  )
+  );
 }
 
-export default Home
+export default Home;

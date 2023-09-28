@@ -47,9 +47,10 @@ function Children() {
   const [child, setChild] = useState([]);
 
   const getchild = async () => {
-    const response = await axios.get(`https://reqres.in/api/users/${childId}`);
-    localStorage.setItem("selected-child", JSON.stringify(response.data.data));
-    setChild(response.data.data);
+    const { data } = await axios.get(`/api/child/${childId}`);
+    localStorage.setItem("selected-child", JSON.stringify(data));
+    console.log(data)
+    setChild(data);
   };
 
   useEffect(() => {

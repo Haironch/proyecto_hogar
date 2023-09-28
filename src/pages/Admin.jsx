@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import AdminNavbar from "../components/AdminNavbar";
 import CreateUpdateChildModal from "../components/CreateUpdateChildModal";
+
+import GamesContext from "../context/games/Context";
 
 const colors = {
   primary: "#8AC926",
@@ -88,17 +90,19 @@ const AddChildButton = styled.button`
 `;
 
 function Admin() {
-  const [chilldren, setChilldren] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  const getchildren = async () => {
-    const response = await axios.get("https://reqres.in/api/users/");
-    console.log(response.data.data);
-    setChilldren(response.data.data);
-  };
+  const { childs, getChilds } = useContext(GamesContext);
+
+  // const getchildren = async () => {
+  //   const { data } = await axios.get("/api/child");
+  //   setChilldren(data);
+  //   console.log(data)
+  // };
 
   useEffect(() => {
-    getchildren();
+    // getchildren();
+    getChilds();
   }, []);
 
   return (
@@ -107,11 +111,11 @@ function Admin() {
       <AdminSubWrapper>
       <h1 className="child-list-title">Seleccione un niño para ingresar a los juegos</h1>
         <div className="child-list">
-          {chilldren.map((chill) => (
+          {childs.map((chill) => (
             <Link to={`/admin/${chill.id}`} key={chill.id}>
               {" "}
               <p>
-                {chill.first_name} {chill.last_name}{" "}
+                {chill.name} {chill.lastname}{" "}
               </p>{" "}
             </Link>
           ))}

@@ -1,12 +1,18 @@
+import axios from "axios";
+import { useContext } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from 'react-toastify';
+
+import GamesContext from "../context/games/Context";
 
 const schema = yup.object({
   name: yup.string().required("Ingrese el nombre del niño por favor."),
+  lastname: yup.string().required("Ingrese el apellido del niño por favor."),
   age: yup.string().required("Ingrese la edad del niño por favor."),
-  observations: yup.string().required("Ingrese las observaciones del niño."),
+  disabilityGrade: yup.string().required("Ingrese las observaciones del niño."),
 });
 
 const CreateUpdateChildModalWrapper = styled.div`
@@ -74,18 +80,22 @@ const Button = styled.button`
 `;
 
 function CreateUpdateChildModal({ setShowModal }) {
+  const  { getChilds } = useContext(GamesContext)
+
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmit = (data) => {
-    if (data.username === "hola" && data.password === "123") {
-      console.log(data);
-    } else {
-      alert("NO SE LOGRO INGRESAR");
-    }
+  const onSubmit = async (formdata) => {
+   const { data } = await axios.post("/api/child", formdata) 
+   if (data.status_code === 200) {
+      getChilds();
+      toast(data.message)
+   } else {
+      toast.error(data.message)
+   }
   };
 
   return (
@@ -105,6 +115,10 @@ function CreateUpdateChildModal({ setShowModal }) {
           {errors.name && <p>{errors.name.message}</p>}
         </InputContainer>
         <InputContainer>
+          <input {...register("lastname")} placeholder="Ingrese nombre del niño" />
+          {errors.lastname && <p>{errors.lastname.message}</p>}
+        </InputContainer>
+        <InputContainer>
           <input
             {...register("age")}
             type="number"
@@ -114,8 +128,8 @@ function CreateUpdateChildModal({ setShowModal }) {
         </InputContainer>
         <InputContainer>
           <input
-            {...register("observations")}
-            placeholder="Ingrese observaciones.."
+            {...register("disabilityGrade")}
+            placeholder="Ingrese observaciones o grado de"
           />
           {errors.observations && <p>{errors.observations.message}</p>}
         </InputContainer>
