@@ -2,7 +2,7 @@ import axios from "axios";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import ChildNavbar from "../components/ChildNavbar";
+import AdminNavbar from "../components/AdminNavbar";
 
 const colors = {
   primaryFont: "#fff",
@@ -42,24 +42,14 @@ const GamesContainer = styled.div`
 `;
 
 function Children() {
-  const { childId } = useParams();
-
-  const [child, setChild] = useState([]);
-
-  const getchild = async () => {
-    const { data } = await axios.get(`/api/child/${childId}`);
-    localStorage.setItem("selected-child", JSON.stringify(data));
-    console.log(data)
-    setChild(data);
-  };
+  const [child ] = useState(JSON.parse(localStorage.getItem("selected-child")))
 
   useEffect(() => {
-    getchild();
   }, []);
 
   return (
     <ChildrenWrapper>
-      <ChildNavbar child={child} />
+      <AdminNavbar child={child} canReturn={false} />
       <GamesContainer>
         <div className="games">
           <Link to="/admin/1/juego/1">

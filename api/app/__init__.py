@@ -20,8 +20,12 @@ def create_app():
     # Register blueprints
     from app.auth.api_v1_0 import auth_bp
     from app.child.api_v1_0 import child_bp
+    from app.scores.api_v1_0 import scores_bp
+    from app.games.api_v1_0 import games_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(child_bp)
+    app.register_blueprint(scores_bp)
+    app.register_blueprint(games_bp)
 
     return app

@@ -1,6 +1,14 @@
+import axios from "axios";
 import styled from "styled-components";
+import { useEffect, useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import AdminNavbar from "../components/AdminNavbar";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import { toast } from "react-toastify";
+
+import CreateUpdateChildModal from "../components/CreateUpdateChildModal";
+import GamesContext from "../context/games/Context";
 
 const colors = {
   primary: "#202020",
@@ -45,9 +53,8 @@ const AdminPanelContainer = styled.div`
 `;
 const AdminPanelContent = styled.div`
   width: 80%;
-
 `;
-const Table = styled.table`
+const Table = styled.div`
   border: 2px solid white;
   width: 100%;
 
@@ -69,7 +76,26 @@ const Table = styled.table`
 `;
 
 function AdminPanel() {
-  const params = useParams();
+  const { child_by_id: child, getChildByID } = useContext(GamesContext);
+  const { childId } = useParams();
+  const [game1, setGame1] = useState(null);
+  const [game2, setGame2] = useState(null);
+  const [game3, setGame3] = useState(null);
+
+  // const getChildById = async () => {
+  //   const { data } = await axios.get(`/api/child/${childId}`)
+  //   setChild(data)
+  // }
+  const getChildScores = async () => {
+    const { data } = await axios.get(`/api/scores/${childId}`);
+    setGame1(data.scores_1);
+    setGame2(data.scores_2);
+    setGame3(data.scores_3);
+  };
+  useEffect(() => {
+    getChildByID(childId);
+    getChildScores();
+  }, []);
 
   const games = [
     {
@@ -97,17 +123,21 @@ function AdminPanel() {
       <AdminNavbar />
       <AdminPanelContainer>
         <AdminPanelContent>
-          <ChildHeader />
+          <ChildHeader child={child} />
           <Table>
             <div className="table-row-header">
               <div>Juego</div>
-              <div>Times</div>
-              <div>Aprobado</div>
+              <div>Tiempo</div>
               <div>Habilidad Nueva</div>
             </div>
-            {games.map((game) => (
-              <ChildRow game={game} />
-            ))}
+            {game1 && <ChildRow game={game1} />}
+            {game2 && <ChildRow game={game2} />}
+            {game3 && <ChildRow game={game3} />}
+            {!game1 && !game2 && !game3 && (
+              <div className=" flex justify-center items-center w-full h-[100px] ">
+                <p>El niño no tiene juegos ganados aún.</p>
+              </div>
+            )}
           </Table>
         </AdminPanelContent>
       </AdminPanelContainer>
@@ -141,36 +171,45 @@ const UncompletedIcon = styled.i`
 `;
 
 function ChildRow({ game }) {
+  const getGameName = (id) => {
+    if (id === 1) {
+      return "Juego Númerico";
+    }
+    if (id === 2) {
+      return "Juego Geométrico";
+    }
+    if (id === 3) {
+      return "Juego de Vocales";
+    }
+  };
+  const getGameHability = (id) => {
+    if (id === 1) {
+      return "Asociativa";
+    }
+    if (id === 2) {
+      return "Geométrica";
+    }
+    if (id === 3) {
+      return "Juego de Vocales";
+    }
+  };
+
+  const gameName = getGameName(game.id_game);
+  const gameHability = getGameHability(game.id_game);
+
   return (
     <ChildRowWrapper>
-      <div className="table-row-name">{game.level}</div>
+      <div className="table-row-name">{gameName}</div>
       <div>{game.time}</div>
       <div>
-        {game.approved ? (
-          <CompletedIcon className="fa-solid fa-check-circle"></CompletedIcon>
-        ) : (
-          <UncompletedIcon className="fa-solid fa-times-circle"></UncompletedIcon>
-        )}
-      </div>
-      <div>
-        {game.approved ? (
-          <p style={{ color: "#34a0a4" }}>
-            {game.level} aprobado: {game.name} obtenida
-          </p>
-        ) : (
-          <p style={{ color: "#e63946" }}>
-            {game.level} {game.name} pendiente
-          </p>
-        )}
+        <p style={{ color: "#34a0a4" }}>{gameHability}</p>
       </div>
     </ChildRowWrapper>
   );
 }
 
-// child header
+// child header options
 const ChildHeaderWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
   margin-bottom: 32px;
   width: 100%;
   border: 1px solid blue;
@@ -189,7 +228,7 @@ const ChildHeaderWrapper = styled.div`
 
   .actions {
     display: flex;
-  justify-content: space-between;
+    justify-content: space-between;
   }
 `;
 const Button = styled.button`
@@ -207,7 +246,6 @@ const Button = styled.button`
   }
 `;
 const ButtonUpdate = styled(Button)`
-
   background-color: #62b6cb;
 `;
 const ButtonDelete = styled(Button)`
@@ -215,26 +253,73 @@ const ButtonDelete = styled(Button)`
   background-color: ${colors.red};
 `;
 
-function ChildHeader() {
+function ChildHeader({ child }) {
+  const [showModal, setShowModal] = useState(false);
+
+  const navigate = useNavigate();
+
+  const deleteChild = async () => {
+    Swal.fire({
+      title: "¿Está seguro de eliminar al niño?",
+      showDenyButton: true,
+      confirmButtonText: "Borrar",
+      denyButtonText: "Cancelar",
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        const { data } = await axios.delete(`/api/child/${child.id}`);
+        if (data.status_code === 200) {
+          Swal.fire(data.message, "", "success");
+          navigate("/admin/panel");
+        } else {
+          toast.error(data.message);
+        }
+      } else if (result.isDenied) {
+        Swal.fire("Niño no borrado", "", "info");
+      }
+    });
+  };
+
   return (
-    <ChildHeaderWrapper>
-      <div className="child">
+    <ChildHeaderWrapper className=" flex flex-col-reverse ">
+      <div className="child w-full ">
         <div>
           <i className="fa-solid fa-user-circle"></i>
         </div>
         <div>
-          <p>Pedrito Lopez</p>
+          <h1 className=" text-3xl text-black ">
+            <p>
+              {child.name} {child.lastname}
+            </p>
+          </h1>
         </div>
       </div>
-      <div className="actions">
-        <ButtonUpdate>
-        <i className="fa-solid fa-pen-to-square"></i>
-        Modificar datos</ButtonUpdate>
-        <ButtonDelete>
+      <div className="actions flex mb-[32px] w-full ">
+        <div>
+        <Link to="/admin/panel" className=" flex justify-center items-center w-[100px] h-[48px] uppercase bg-blue-400 rounded " >
+          <i className="fa-solid fa-"></i>
+          Atrás
+        </Link>
+        </div>
+        <div className=" flex ">
+        <ButtonUpdate onClick={() => setShowModal(true)}>
+          <i className="fa-solid fa-pen-to-square"></i>
+          Modificar datos
+        </ButtonUpdate>
+        <ButtonDelete onClick={deleteChild}>
           <i className="fa-solid fa-times-circle"></i>
           Eliminar
         </ButtonDelete>
+        </div>
       </div>
+
+      {showModal && (
+        <CreateUpdateChildModal
+          state="UPDATE"
+          setShowModal={setShowModal}
+          child={child}
+        />
+      )}
     </ChildHeaderWrapper>
   );
 }

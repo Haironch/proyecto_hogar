@@ -8,12 +8,18 @@ class Child(db.Model):
     age = db.Column(db.String(2), nullable=False)
     disabilityGrade = db.Column(db.Text, nullable=False)
 
+    score = db.relationship('Scores', backref='child', lazy=True, cascade="all, delete")
+
     def __repr__(self):
         return f'<{self.name} {self.lastname} >'
 
 
     def save(self):
         db.session.add(self)
+        db.session.commit()
+    
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()
 
     @staticmethod

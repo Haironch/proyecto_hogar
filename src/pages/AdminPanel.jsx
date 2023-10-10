@@ -1,6 +1,9 @@
 import styled from "styled-components";
+import { useEffect, useContext } from "react";
 import AdminNavbar from "../components/AdminNavbar";
 import { Link } from "react-router-dom";
+
+import GamesContext from "../context/games/Context";
 
 const colors = {
   primary: "#202020",
@@ -24,7 +27,8 @@ const AdminPanelWrapper = styled.div`
   padding: 0 80px;
 `;
 const AdminPanelContainer = styled.div`
-  ${styleFlex};
+  /* ${styleFlex}; */
+  
   height: calc(100% - 150px);
   width: 100%;
   background-color: blueviolet;
@@ -43,15 +47,13 @@ const AdminPanelContainer = styled.div`
   }
 `;
 const Table = styled.div`
-  border: 2px solid white;
-  width: 700px;
+  /* width: 700px; */
 
   .table-row-header {
     ${styleFlex};
-    justify-content: space-between;
+    justify-content: center;
     height: 48px;
     font-size: 24px;
-    border-bottom: 2px solid white;
 
     div {
       text-align: center;
@@ -61,37 +63,36 @@ const Table = styled.div`
 `;
 
 function AdminPanel() {
-  const children = [
-    {
-      id: 1,
-      name: "Juan Perez",
-      game1: true,
-      game2: false,
-      game3: true,
-    },
-    {
-      id: 2,
-      name: "John Doe",
-      game1: false,
-      game2: false,
-      game3: true,
-    },
-  ];
+  const { childs, getChilds } = useContext(GamesContext);
+
+  useEffect(() => {
+    getChilds();
+  }, []);
+
   return (
     <AdminPanelWrapper>
       <AdminNavbar />
-      <AdminPanelContainer>
-        <Table>
+      <AdminPanelContainer className=" border border-yellow-400 ">
+        <div className=" w-full ">
+          <Link
+            to="/admin"
+            className=" flex justify-center items-center w-[100px] h-[48px] uppercase bg-blue-400 rounded "
+          >
+            <i className="fa-solid fa-"></i>
+            Atrás
+          </Link>
+        </div>
+        <Table className=" w-full border border-black ">
           <div className="table-row-header">
-            <div>Niño</div>
-            <div>Juego 1</div>
-            <div>Juego 2</div>
-            <div>Juego 3</div>
-            <div>Acciones</div>
+            <div>Niños</div>
           </div>
-          {children.map((child) => (
-            <ChildRow child={child} key={child.id} />
-          ))}
+          {childs.length > 0 ? (
+            childs.map((child) => <ChildRow child={child} key={child.id} />)
+          ) : (
+            <div className=" flex justify-center items-center w-full h-[100px] ">
+              <p>No hay niños</p>
+            </div>
+          )}
         </Table>
       </AdminPanelContainer>
     </AdminPanelWrapper>
@@ -136,27 +137,8 @@ const OptionsButton = styled(Link)`
 function ChildRow({ child }) {
   return (
     <ChildRowWrapper>
-      <div className="table-row-name">{child.name}</div>
-      <div>
-        {child.game1 ? (
-          <CompletedIcon className="fa-solid fa-check-circle"></CompletedIcon>
-        ) : (
-          <UncompletedIcon className="fa-solid fa-times-circle"></UncompletedIcon>
-        )}
-      </div>
-      <div>
-        {child.game2 ? (
-          <CompletedIcon className="fa-solid fa-check-circle"></CompletedIcon>
-        ) : (
-          <UncompletedIcon className="fa-solid fa-times-circle"></UncompletedIcon>
-        )}
-      </div>
-      <div>
-        {child.game3 ? (
-          <CompletedIcon className="fa-solid fa-check-circle"></CompletedIcon>
-        ) : (
-          <UncompletedIcon className="fa-solid fa-times-circle"></UncompletedIcon>
-        )}
+      <div className="table-row-name">
+        {child.name} {child.lastname}
       </div>
       <div>
         <OptionsButton to={`/admin/panel/${child.id}`}>
@@ -166,6 +148,5 @@ function ChildRow({ child }) {
     </ChildRowWrapper>
   );
 }
-
 
 export default AdminPanel;

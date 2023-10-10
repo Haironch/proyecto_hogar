@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const AdminNavbarWrapper = styled.div`
   display: flex;
@@ -8,7 +8,6 @@ const AdminNavbarWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 75px;
-  background-color: transparent;
 
   .user {
     display: inherit;
@@ -18,31 +17,62 @@ const AdminNavbarWrapper = styled.div`
       margin-right: 12px;
     }
   }
-  i {
-    font-size: 36px;
-  }
 `;
 
-function AdminNavbar() {
-  const admin = {
-    first_name: "Hairon",
-    last_name: "Chávez",
+function AdminNavbar({ child, canReturn }) {
+  const [user] = useState(JSON.parse(localStorage.getItem("user_data")));
+
+  const navigate = useNavigate();
+  const { childId } = useParams();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user_token");
+    localStorage.removeItem("user_data");
+    localStorage.removeItem("selected-child");
+    navigate("/");
   };
 
   return (
-    <AdminNavbarWrapper>
-      <Link to="/admin/panel" className="user">
-        <div>
-          <i className="fa-solid fa-user-circle"></i>
+    <AdminNavbarWrapper className=" bg-black text-white ">
+      {child === null || child === undefined ? (
+        <Link to="/admin/panel" className="user border border-red-400 ">
+          <div>
+            <i className=" text-3xl fa-solid fa-user-circle"></i>
+          </div>
+          <div>
+            <p>
+              {user.name} {user.lastname}
+            </p>
+          </div>
+        </Link>
+      ) : (
+        <div className="flex items-center ">
+          <div>
+            <i className=" mr-2 text-3xl fa-solid fa-child "></i>
+          </div>
+          <div>
+            <p>
+              {child?.name} {child?.lastname}
+            </p>
+          </div>
         </div>
-        <div>
-          <p>
-            {admin.first_name} {admin.last_name}
-          </p>
-        </div>
-      </Link>
-      <div onClick={() => alert("Logout")}>
-        <i className="fa-solid fa-right-from-bracket"></i>
+      )}
+      <div className=" flex ">
+        {canReturn ? (
+          <div className=" mr-5 ">
+            <Link
+              to={`/admin/${childId}`}
+              className=" flex justify-center items-center w-[100px] h-[48px] uppercase bg-blue-400 rounded "
+            >
+              <i className="fa-solid fa-"></i>
+              Atrás
+            </Link>
+          </div>
+        ) : (
+          <div onClick={handleLogout}>
+            <i className=" text-3xl fa-solid fa-right-from-bracket"></i>
+          </div>
+        )}
       </div>
     </AdminNavbarWrapper>
   );

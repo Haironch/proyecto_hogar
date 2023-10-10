@@ -11,24 +11,13 @@ import ImgFive from "/games-images/game4/img5.jpeg";
 
 const SelectedGameWrapper = styled.div`
   width: 100%;
-  height: calc(100vh);
   background-color: #202020;
-  padding: 0 20px;
-
-  border: 1px solid blue;
 `;
 const Gallery = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   width: 100%;
-  height: 200px;
-  border: 1px solid blue;
-
-  img {
-    width: 100px;
-    height: 100px;
-  }
+  height: 100px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 `;
 
 const Sizes = styled.div`
@@ -36,22 +25,20 @@ const Sizes = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 200px;
-  border: 1px solid blue;
 `;
 const SizesCard = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 150px;
-  height: 150px;
+  height: 80px;
   background-color: ${({ color }) => color};
   font-size: 64px;
   cursor: pointer;
 `;
 const CustomSize = styled.div`
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 100px;
 `;
 
 function GameFour() {
@@ -75,8 +62,8 @@ function GameFour() {
   useEffect(() => {}, []);
 
   return (
-    <SelectedGameWrapper>
-      <Gallery>
+    <SelectedGameWrapper className=" px-[20px] py-[40px] h-auto border-2 border-blue-500 ">
+      <Gallery className=" flex min-h-[250px] [&_img]:min-w-[250px] [&_div]:mx-[20px] border-2 border-red-500 overflow-x-auto ">
         <div onClick={() => setSelectedImg(ImgOne)}>
           <img src={ImgOne} alt="" />
         </div>
@@ -94,7 +81,7 @@ function GameFour() {
         </div>
       </Gallery>
 
-      <Sizes>
+      <Sizes className=" mt-[32px] h-[150px] border-2 border-yellow-500 ">
         <SizesCard
           onClick={() => {
             setSizex(1);
@@ -160,13 +147,19 @@ function GameFour() {
       </Sizes>
 
       <h2 className="tag">{text}</h2>
-      <JigsawPuzzle
-        imageSrc={selectedImg}
-        rows={sizex}
-        columns={sizey}
-        onSolved={set}
-        className="jigsaw-puzzle"
-      />
+      <div className=" flex h-[800px] border-3 border-pink-500 ">
+        <div className=" w-[800px] h-[800px] ">
+        <JigsawPuzzle
+          imageSrc={selectedImg}
+          rows={sizex}
+          columns={sizey}
+          onSolved={set}
+          className="jigsaw-puzzle border border-red-500 "
+          scale={2}
+          zoom={2}
+        />
+        </div>
+      </div>
     </SelectedGameWrapper>
   );
 }

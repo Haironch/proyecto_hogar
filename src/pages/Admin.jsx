@@ -1,10 +1,10 @@
 import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AdminNavbar from "../components/AdminNavbar";
 import CreateUpdateChildModal from "../components/CreateUpdateChildModal";
-
+import { Button } from "@nextui-org/react";
 import GamesContext from "../context/games/Context";
 
 const colors = {
@@ -45,9 +45,9 @@ const AdminSubWrapper = styled.div`
     padding: 32px 16px;
     max-height: 600px;
     overflow-y: auto;
-    background-color: #1982C4;
+    background-color: #1982c4;
     border-radius: 4px;
-    
+
     a {
       display: block;
       margin-bottom: 32px;
@@ -58,7 +58,6 @@ const AdminSubWrapper = styled.div`
       border-radius: 4px;
       transition: 300ms all;
 
-
       &:hover {
         background-color: ${colors.primaryHover};
       }
@@ -66,66 +65,52 @@ const AdminSubWrapper = styled.div`
   }
 `;
 
-const AddChildButton = styled.button`
-  position: absolute;
-  bottom: 56px;
-  right: 56px;
-  border: none;
-  box-shadow: 0 5px 10px 0px green;
-  
-  
-  
-  ${styleFlex};
-  padding: 8px 18px;
-  width: auto;
-  height: 44px;
-  border-radius: 4px;
-  border: none;
-  text-transform: uppercase;
-
-  i {
-    margin-right: 8px;
-    font-size: 24px;
-  }
-`;
-
 function Admin() {
   const [showModal, setShowModal] = useState(false);
-
   const { childs, getChilds } = useContext(GamesContext);
 
-  // const getchildren = async () => {
-  //   const { data } = await axios.get("/api/child");
-  //   setChilldren(data);
-  //   console.log(data)
-  // };
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // getchildren();
     getChilds();
   }, []);
 
+  const handleRedirect = async (childId) => {
+    const { data } = await axios.get(`/api/child/${childId}`);
+    localStorage.setItem("selected-child", JSON.stringify(data));
+    navigate(`/admin/${childId}`);
+  };
+
   return (
     <AdminWrapper>
-    <AdminNavbar />
+      <AdminNavbar />
       <AdminSubWrapper>
-      <h1 className="child-list-title">Seleccione un niño para ingresar a los juegos</h1>
+        <h1 className="child-list-title">
+          Seleccione un niño para ingresar a los juegos
+        </h1>
         <div className="child-list">
-          {childs.map((chill) => (
-            <Link to={`/admin/${chill.id}`} key={chill.id}>
-              {" "}
-              <p>
-                {chill.name} {chill.lastname}{" "}
-              </p>{" "}
-            </Link>
-          ))}
+          {childs.length > 0 ? (
+            childs.map((child) => (
+              <button onClick={() => handleRedirect(child.id)} key={child.id}>
+                <p>
+                  {child.name} {child.lastname}{" "}
+                </p>{" "}
+              </button>
+            ))
+          ) : (
+            <div>
+              <p>No hay niños.</p>
+            </div>
+          )}
         </div>
       </AdminSubWrapper>
-      <AddChildButton onClick={() => setShowModal(true)}>
-            <i className="fa-solid fa-user-plus"></i>
-            Agregar niño
-      </AddChildButton>
-      {showModal && <CreateUpdateChildModal setShowModal={setShowModal} />}
+      <Button color="primary" onClick={() => setShowModal(true)}>
+        Agregar Niño
+        <i className="fa-solid fa-plus"></i>
+      </Button>
+      {showModal && (
+        <CreateUpdateChildModal state="CREATE" setShowModal={setShowModal} />
+      )}
     </AdminWrapper>
   );
 }

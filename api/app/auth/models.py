@@ -20,3 +20,7 @@ class AdminsUsers(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
+    
+    @staticmethod
+    def get_by_name(name):
+        return AdminsUsers.query.filter_by(name=name).one_or_none()
