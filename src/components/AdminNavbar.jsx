@@ -65,7 +65,7 @@ function AdminNavbar({ child, canReturn }) {
               className=" flex justify-center items-center w-[100px] h-[48px] uppercase bg-blue-400 rounded "
             >
               <i className="fa-solid fa-"></i>
-              Atrás
+              Atras
             </Link>
           </div>
         ) : (

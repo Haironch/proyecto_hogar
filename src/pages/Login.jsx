@@ -74,7 +74,6 @@ function Home() {
 
   const onSubmit = async (formdata) => {
     const { data } = await axios.post("/api/login", formdata);
-    console.log(data);
     if (data.status_code === 200) {
       localStorage.setItem("user_token", JSON.stringify(data.token))
       localStorage.setItem("user_data", JSON.stringify(data.user_data))

@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useDrag, useDrop } from "react-dnd";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { TouchBackend } from 'react-dnd-touch-backend'
 import "../../App.css";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { toast } from "react-toastify";
@@ -173,8 +174,10 @@ function SelectedGame() {
     setSeconds(totalSeconds % 60);
   }, [totalSeconds]);
 
+  const isMobile = window.navigator.userAgent.match(/(Android|iPhone|iPad|iPod)/i);
+
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider backend={isMobile ? TouchBackend : HTML5Backend }>
       <SelectedGameWrapper>
         <div>
           {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
@@ -265,12 +268,24 @@ const DraggableElement = ({ value, imgUrl }) => {
     item: { value },
   });
 
+  const [isDragging, setIsDragging] = useState(false);
+
   const handleContextMenu = (e) => {
     e.preventDefault();
   };
 
+  const elementStyle = {
+    display: isDragging ? "none" : "block",
+  };
+
+
   return (
-    <div ref={ref} className="draggable-element">
+    <div 
+    ref={(instance) => {
+      ref(instance);
+      instance && (instance.style.display = isDragging ? "none" : "block");
+    }} 
+    className="draggable-element" style={elementStyle} >
       <img
         src={imgUrl}
         alt=""

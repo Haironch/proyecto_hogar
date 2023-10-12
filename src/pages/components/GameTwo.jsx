@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useDrag, useDrop } from "react-dnd";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { TouchBackend } from 'react-dnd-touch-backend'
 import "../../App.css";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
@@ -173,8 +174,10 @@ export default function GameTow() {
     setSeconds(totalSeconds % 60);
   }, [totalSeconds]);
 
+  const isMobile = window.navigator.userAgent.match(/(Android|iPhone|iPad|iPod)/i);
+
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider backend={isMobile ? TouchBackend : HTML5Backend }>
       <SelectedGameWrapper>
         <div>
           {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
@@ -244,6 +247,7 @@ const DraggableElement = ({ value, imgUrl }) => {
     e.preventDefault();
   };
 
+      // <p className=" w-[80px] h-[80px] text-3xl bg-black "></p>
   return (
     <div ref={ref} className="draggable-element">
       <img
