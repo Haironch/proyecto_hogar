@@ -33,14 +33,14 @@ function AdminNavbar({ child, canReturn }) {
   };
 
   return (
-    <AdminNavbarWrapper className=" bg-black text-white ">
+    <AdminNavbarWrapper className=" px-[40px] bg-navbar text-dark border-b-4 border-white ">
       {child === null || child === undefined ? (
-        <Link to="/admin/panel" className="user border border-red-400 ">
+        <Link to="/admin/panel" className=" user ">
           <div>
             <i className=" text-3xl fa-solid fa-user-circle"></i>
           </div>
           <div>
-            <p>
+            <p className=" font-font ">
               {user.name} {user.lastname}
             </p>
           </div>
@@ -62,10 +62,9 @@ function AdminNavbar({ child, canReturn }) {
           <div className=" mr-5 ">
             <Link
               to={`/admin/${childId}`}
-              className=" flex justify-center items-center w-[100px] h-[48px] uppercase bg-blue-400 rounded "
+              className=" flex justify-center items-center w-[70px] h-[48px] uppercase bg-primary text-white rounded "
             >
-              <i className="fa-solid fa-"></i>
-              Atras
+              <i className=" text-2xl fa-solid fa-arrow-left-long"></i>
             </Link>
           </div>
         ) : (

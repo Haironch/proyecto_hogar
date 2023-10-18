@@ -10,9 +10,7 @@ import GameThree from "./components/GameThree";
 import GameFour from "./components/GameFour";
 import AdminNavbar from "../components/AdminNavbar";
 
-const colors = {
-  primaryFont: "#fff",
-};
+
 const styleFlex = {
   display: "flex;",
   "justify-content": "center;",
@@ -20,19 +18,11 @@ const styleFlex = {
 };
 
 const SelectedGameWrapper = styled.div`
-  width: 100vw;
   min-height: 100vh;
-  background-color: #8AC926;
-  padding: 0 80px;
-  padding-bottom: 40px;
-  color: ${colors.primaryFont};
 `;
 const SelectedGameContainer = styled.div`
   ${styleFlex};
-  flex-direction: column;
-  height: calc(100% - 150px);
   width: 100%;
-  background-color: blueviolet;
 `;
 
 function SelectedGame() {
@@ -55,9 +45,9 @@ function SelectedGame() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <SelectedGameWrapper>
+      <SelectedGameWrapper className=" ">
         <AdminNavbar child={child} canReturn={true} />
-        <SelectedGameContainer>
+        <SelectedGameContainer className=" h-full ">
           {showGame()}
         </SelectedGameContainer>
       </SelectedGameWrapper>

@@ -4,33 +4,17 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
-import { Button, ButtonGroup } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 
 import { toast } from "react-toastify";
 
+import logo from "/public/hermano-pedro-hogar-logo.jpeg"
+
 const schema = yup.object({
-  name: yup.string().required("Ingrese nombre por favor"),
+  name: yup.string().required("Ingrese su nombre por favor"),
   password: yup.string().required("Ingrese su contraseña por favor"),
 });
-
-///ESTILOS----------------------------------------------------------
-
-const colors = [
-  "default",
-  "primary",
-  "secondary",
-  "success",
-  "warning",
-  "danger",
-];
-const colors_themes = {
-  primary: "#8AC926",
-  secondary: "#003566",
-  primaryHover: "#0077B6",
-  texto: "#0582CA",
-  fontfamily: "'Chakra Petch', sans-serif",
-};
 
 const HomeWrapper = styled("div")`
   display: flex;
@@ -38,13 +22,8 @@ const HomeWrapper = styled("div")`
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background-color: ${colors_themes.primary};
-  color: ${colors_themes.secondary};
 `;
 const Form = styled.form`
-  width: 500px;
-  height: 400px;
-  padding: 24px;
 
   .user-logo {
     text-align: center;
@@ -55,8 +34,6 @@ const Form = styled.form`
 const InputContainer = styled.div`
   margin: 24px 0;
   width: 100%;
-  height: 28px;
-  color: ${colors_themes.texto};
 
   input {
     width: 100%;
@@ -84,30 +61,30 @@ function Home() {
   };
 
   return (
-    <HomeWrapper>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+    <HomeWrapper className=" bg-bg ">
+      <Form className=" w-[500px] h-auto " onSubmit={handleSubmit(onSubmit)}>
         <div className="user-logo">
-          <i className="fa-solid fa-user-tie"></i>
+          <img src={logo} className=" rounded-[10px] " alt="Hermano Pedro Hogar" />
         </div>
-        <InputContainer className="w-full flex flex-row flex-wrap gap-4">
+        <InputContainer>
           <Input
             color={"success"}
             {...register("name")}
-            placeholder="Ingrese su usuario"
+            placeholder="Ingrese su nombre"
           />
-          {errors.username && <p>{errors.username.message}</p>}
+          {errors.name && <p className=" text-red-600 ">{errors.name.message}</p>}
         </InputContainer>
         <InputContainer>
           <Input
             color={"success"}
             {...register("password")}
             type="password"
-            placeholder="Ingrese su ontraseña..."
+            placeholder="Ingrese su contraseña"
           />
-          {errors.username && <p>{errors.username.message}</p>}
+          {errors.password && <p className=" text-red-600 ">{errors.password.message}</p>}
         </InputContainer>
         <InputContainer>
-          <Button type="submit" color="primary" variant="ghost" radius="full" size="lg">
+          <Button type="submit" color="primary" className=" " variant="ghost" radius="full" size="lg">
             Ingresar
           </Button>
         </InputContainer>

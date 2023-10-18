@@ -1,12 +1,13 @@
-import axios from "axios";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import AdminNavbar from "../components/AdminNavbar";
 
-const colors = {
-  primaryFont: "#fff",
-};
+import figuras from "/public/games-icons/figuras.png"
+import numeros from "/public/games-icons/numeros.png"
+import puzzle from "/public/games-icons/puzzle.png"
+import vocales from "/public/games-icons/vocales.png"
+
 const styleFlex = {
   display: "flex;",
   "justify-content": "center;",
@@ -16,15 +17,11 @@ const styleFlex = {
 const ChildrenWrapper = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: #7bb422;
-  padding: 0 80px;
-  color: ${colors.primaryFont};
 `;
 const GamesContainer = styled.div`
   ${styleFlex};
   height: calc(100% - 150px);
   width: 100%;
-  background: #8AC926;
 
 
   .games {
@@ -33,10 +30,19 @@ const GamesContainer = styled.div`
     width: 100%;
 
     a {
-      display: block;
-      border: 2px solid black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 250px;
       width: 250px;
+      background-color: #118AB2;
+      border-radius: 10px;
+      transition: 300ms transform;
+
+      &:hover {
+        transform: translateY(-10px);
+
+      }
     }
   }
 `;
@@ -44,25 +50,22 @@ const GamesContainer = styled.div`
 function Children() {
   const [child ] = useState(JSON.parse(localStorage.getItem("selected-child")))
 
-  useEffect(() => {
-  }, []);
-
   return (
-    <ChildrenWrapper>
+    <ChildrenWrapper className=" bg-bg ">
       <AdminNavbar child={child} canReturn={false} />
-      <GamesContainer>
+      <GamesContainer className=" px-[40px] ">
         <div className="games">
           <Link to="/admin/1/juego/1">
-            <div>Juego 1</div>
+            <img src={numeros} alt="Juego de números" />
           </Link>
-          <Link to="/admin/1/juego/2">
-            <div>Juego 2</div>
+          <Link to="/admin/1/juego/2" className=" ">
+            <img src={figuras} alt="Juego de figuras geométricas" />
           </Link>
           <Link to="/admin/1/juego/3">
-            <div>Juego 3</div>
+            <img src={vocales} alt="Juego de vocales" />
           </Link>
           <Link to="/admin/1/juego/4">
-            <div>Juego 4</div>
+            <img src={puzzle} alt="Juego de rompecabezas" />
           </Link>
         </div>
       </GamesContainer>

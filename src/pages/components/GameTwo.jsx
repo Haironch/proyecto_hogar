@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useDrag, useDrop } from "react-dnd";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { TouchBackend } from 'react-dnd-touch-backend'
+import { TouchBackend } from "react-dnd-touch-backend";
 import "../../App.css";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
@@ -17,9 +17,6 @@ import hexagonoImg from "/games-images/game2/hexagono.png";
 import pentagonoImg from "/games-images/game2/pentagono.jpg";
 import circuloImg from "/games-images/game2/circulo.png";
 
-const colors = {
-  primaryFont: "#fff",
-};
 const styleFlex = styled.div`
   //display: "flex;",
   justify-content: center;
@@ -29,14 +26,12 @@ const styleFlex = styled.div`
 const SelectedGameWrapper = styled.div`
   width: 100%;
   height: 100%;
-  background-color: #006494;
   padding: 0 20px;
 `;
 const SelectedGameContainer = styled.div`
   ${styleFlex};
   height: calc(100% - 40px);
   width: 100%;
-  background: #1982c4;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -174,14 +169,18 @@ export default function GameTow() {
     setSeconds(totalSeconds % 60);
   }, [totalSeconds]);
 
-  const isMobile = window.navigator.userAgent.match(/(Android|iPhone|iPad|iPod)/i);
+  const isMobile = window.navigator.userAgent.match(
+    /(Android|iPhone|iPad|iPod)/i
+  );
 
   return (
-    <DndProvider backend={isMobile ? TouchBackend : HTML5Backend }>
-      <SelectedGameWrapper>
-        <div>
-          {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
-          {String(seconds).padStart(2, "0")}
+    <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
+      <SelectedGameWrapper className=" bg-bg ">
+        <div className=" mt-2 w-full ">
+          <p className=" flex justify-center items-center w-[100px] bg-primary text-white text-lg h-[44px] rounded ">
+            {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
+            {String(seconds).padStart(2, "0")}
+          </p>
         </div>
         <SelectedGameContainer>
           <OptionGameContainer flexend={n1.toString()}>
@@ -247,7 +246,7 @@ const DraggableElement = ({ value, imgUrl }) => {
     e.preventDefault();
   };
 
-      // <p className=" w-[80px] h-[80px] text-3xl bg-black "></p>
+  // <p className=" w-[80px] h-[80px] text-3xl bg-black "></p>
   return (
     <div ref={ref} className="draggable-element">
       <img

@@ -5,16 +5,20 @@ import { useParams } from "react-router-dom";
 import { useDrag, useDrop } from "react-dnd";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { TouchBackend } from 'react-dnd-touch-backend'
+import { TouchBackend } from "react-dnd-touch-backend";
 import "../../App.css";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import { toast } from "react-toastify";
 
 import { formatTime } from "../../utils/helpers";
 
-const colors = {
-  primaryFont: "#fff",
-};
+// game images
+import oneImg from '/public/games-images/game1/one.png'
+import twoImg from '/public/games-images/game1/two.png'
+import threeImg from '/public/games-images/game1/three.png'
+import fourImg from '/public/games-images/game1/four.png'
+import fiveImg from '/public/games-images/game1/five.png'
+
 const styleFlex = styled.div`
   //display: "flex;",
   justify-content: center;
@@ -24,16 +28,13 @@ const styleFlex = styled.div`
 const SelectedGameWrapper = styled.div`
   width: 100%;
   height: 100%;
-  background-color: #006494;
   padding: 0 20px;
-  color: ${colors.primaryFont};
 `;
 const SelectedGameContainer = styled.div`
   ${styleFlex};
   flex-direction: column;
   height: calc(100% - 60px);
   width: 100%;
-  background: #1982c4;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,7 +44,7 @@ const OptionGameContainer = styled.div`
   justify-content: ${(props) =>
     props.flexend === "true" ? "flex-end" : "space-between"};
   align-items: center;
-  margin-bottom: 0px;
+  margin-bottom: 20px;
   width: 650px;
   height: 100px;
 `;
@@ -174,65 +175,69 @@ function SelectedGame() {
     setSeconds(totalSeconds % 60);
   }, [totalSeconds]);
 
-  const isMobile = window.navigator.userAgent.match(/(Android|iPhone|iPad|iPod)/i);
+  const isMobile = window.navigator.userAgent.match(
+    /(Android|iPhone|iPad|iPod)/i
+  );
 
   return (
-    <DndProvider backend={isMobile ? TouchBackend : HTML5Backend }>
-      <SelectedGameWrapper>
-        <div>
-          {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
-          {String(seconds).padStart(2, "0")}
+    <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
+      <SelectedGameWrapper className=" bg-bg ">
+        <div className=" mt-2 w-full ">
+          <p className=" flex justify-center items-center w-[100px] bg-primary text-white text-lg h-[44px] rounded ">
+            {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
+            {String(seconds).padStart(2, "0")}
+          </p>
         </div>
         <SelectedGameContainer>
           <OptionGameContainer flexend={n1.toString()}>
             {!n1 && (
               <DraggableElement
                 value="1"
-                imgUrl="https://w7.pngwing.com/pngs/526/395/png-transparent-number-graphy-1-miscellaneous-computer-network-angle.png"
+                imgUrl={oneImg}
               />
             )}
             <DropTarget
               onDrop={handleDropOne}
               //expectedValue={droppedValue}
               expectedValue="1"
-              items={[1]}
               bg="red"
+              items={[1, 2, 3, 4, 5]}
             />
           </OptionGameContainer>
           <OptionGameContainer flexend={n2.toString()}>
             {!n2 && (
               <DraggableElement
                 value="2"
-                imgUrl="https://upload.wikimedia.org/wikipedia/commons/4/4b/2green.png"
+                imgUrl={twoImg}
               />
             )}
             <DropTarget
               onDrop={handleDropTwo}
               //expectedValue={droppedValue}
               expectedValue="2"
-              items={[1, 2]}
               bg="green"
+              items={[1, 2, 3]}
             />
           </OptionGameContainer>
           <OptionGameContainer flexend={n3.toString()}>
             {!n3 && (
               <DraggableElement
                 value="3"
-                imgUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Eo_circle_blue_white_number-3.svg/2048px-Eo_circle_blue_white_number-3.svg.png"
+                imgUrl={threeImg}
               />
             )}
             <DropTarget
               onDrop={handleDropThree}
               //expectedValue={droppedValue}
               expectedValue="3"
-              items={[1, 2, 3]}
+              items={[1, 2]}
             />
           </OptionGameContainer>
           <OptionGameContainer flexend={n4.toString()}>
             {!n4 && (
               <DraggableElement
                 value="4"
-                imgUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Eo_circle_red_number-4.svg/2048px-Eo_circle_red_number-4.svg.png"
+                imgUrl={fourImg}
               />
             )}
             <DropTarget
@@ -246,14 +251,14 @@ function SelectedGame() {
             {!n5 && (
               <DraggableElement
                 value="5"
-                imgUrl="https://cdn-icons-png.flaticon.com/512/3593/3593510.png"
+                imgUrl={fiveImg}
               />
             )}
             <DropTarget
               onDrop={handleDropFive}
               //expectedValue={droppedValue}
               expectedValue="5"
-              items={[1, 2, 3, 4, 5]}
+              items={[1]}
             />
           </OptionGameContainer>
         </SelectedGameContainer>
@@ -278,20 +283,22 @@ const DraggableElement = ({ value, imgUrl }) => {
     display: isDragging ? "none" : "block",
   };
 
-
   return (
-    <div 
-    ref={(instance) => {
-      ref(instance);
-      instance && (instance.style.display = isDragging ? "none" : "block");
-    }} 
-    className="draggable-element" style={elementStyle} >
+    <div
+      ref={(instance) => {
+        ref(instance);
+        instance && (instance.style.display = isDragging ? "none" : "block");
+      }}
+      className="draggable-element "
+      style={elementStyle}
+    >
       <img
         src={imgUrl}
         alt=""
         width={50}
         height={50}
         onContextMenu={handleContextMenu}
+        className=" w-full h-full "
       />
     </div>
   );
@@ -299,23 +306,19 @@ const DraggableElement = ({ value, imgUrl }) => {
 
 // drop target
 const DropTargetWrapper = styled.div`
-  width: 150px;
+  width: 200px;
   min-height: 90px;
-  background-color: transparent;
-  background-color: red;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
   transition: background-color 0.3s ease-in-out;
   cursor: pointer;
 
   .circle {
     margin: 8px;
-    width: 24px;
-    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
     border-radius: 100%;
-    background-color: white;
   }
 `;
 
@@ -329,12 +332,12 @@ const DropTarget = ({ onDrop, expectedValue, items, bg = "white" }) => {
     }),
   });
 
-  const backgroundColor = isOver && canDrop ? bg : "transparent";
+  const backgroundColor = isOver && canDrop ? "#EF476F" : "transparent";
 
   return (
-    <DropTargetWrapper ref={drop} style={{ backgroundColor }}>
+    <DropTargetWrapper ref={drop} style={{ backgroundColor }} className=" rounded " >
       {items.map((value, index) => (
-        <div className="circle" key={index} />
+        <div className="circle bg-white " key={index} />
       ))}
     </DropTargetWrapper>
   );

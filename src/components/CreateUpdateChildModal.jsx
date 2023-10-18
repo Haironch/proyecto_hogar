@@ -18,15 +18,6 @@ const schema = yup.object({
   disabilityGrade: yup.string().required("Ingrese las observaciones del niño."),
 });
 
-const colors = [
-  "default",
-  "primary",
-  "secondary",
-  "success",
-  "warning",
-  "danger",
-];
-
 const colors_theme = {
   primary: "#8AC926",
   secondary: "#003566",
@@ -48,6 +39,7 @@ const CreateUpdateChildModalWrapper = styled.div`
   width: 100vw;
   height: 100vh;
   color: ${colors_theme.text};
+
   background-color: rgba(0, 0, 0, 0.5);
   .close-icon {
     position: absolute;
@@ -59,22 +51,18 @@ const CreateUpdateChildModalWrapper = styled.div`
   }
 `;
 const Content = styled.div`
-  padding: 56px 24px;
   width: auto;
-  height: 90%;
   background-color: #81b29a;
   border-radius: 20px;
 
   .form-title {
     text-align: center;
-    margin-bottom: 12px;
   }
 `;
 
 // form
 const Form = styled.form`
   width: 500px;
-  height: 90%;
   padding: 5px;
 
   .user-logo {
@@ -84,7 +72,6 @@ const Form = styled.form`
   }
 `;
 const InputContainer = styled.div`
-  margin: 10px 0;
   margin-bottom: 18px;
   width: 100%;
   height: auto;
@@ -100,6 +87,7 @@ function CreateUpdateChildModal({ setShowModal, state, child }) {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
@@ -125,19 +113,23 @@ function CreateUpdateChildModal({ setShowModal, state, child }) {
         toast.error(data.message);
       }
     }
+    reset();
   };
 
   return (
-    <CreateUpdateChildModalWrapper>
-      <div className="close-icon" onClick={() => setShowModal(false)}>
-        <i className="fa-solid fa-times"></i>
-      </div>
-
-      <Content>
-        <h1 className="form-title">Información de niño</h1>
-        <Form onSubmit={handleSubmit(onSubmit)} className=" text-black ">
-          <div className="user-logo">
-            <i className="fa-solid fa-user-tie"></i>
+    <CreateUpdateChildModalWrapper onClick={() => setShowModal(false)}>
+      <Content
+        onClick={(e) => e.stopPropagation()}
+        className=" px-[24px] pt-[32px] h-auto "
+      >
+        <h1 className="form-title text-3xl text-primary ">
+          {state === "CREATE"
+            ? "Agregar información del niño"
+            : "Actualizar información del niño"}
+        </h1>
+        <Form onSubmit={handleSubmit(onSubmit)} className=" h-auto text-dark ">
+          <div className="user-logo text-navbar ">
+            <i className="fa-solid fa-child-reaching"></i>
           </div>
           <InputContainer>
             <Input
@@ -145,36 +137,66 @@ function CreateUpdateChildModal({ setShowModal, state, child }) {
               placeholder="Ingrese nombre del niño"
               defaultValue={state === "CREATE" ? "" : child.name}
             />
-            {errors.name && <p>{errors.name.message}</p>}
+            {errors.name && (
+              <p className=" text-red-600 ">{errors.name.message}</p>
+            )}
           </InputContainer>
           <InputContainer>
             <Input
               {...register("lastname")}
-              placeholder="Ingrese nombre del niño"
-              defaultValue={state=== "CREATE" ? "" : child.lastname}
+              placeholder="Ingrese apellido del niño"
+              defaultValue={state === "CREATE" ? "" : child.lastname}
             />
-            {errors.lastname && <p>{errors.lastname.message}</p>}
+            {errors.lastname && (
+              <p className=" text-red-600 ">{errors.lastname.message}</p>
+            )}
           </InputContainer>
           <InputContainer>
             <Input
               {...register("age")}
               type="number"
-              placeholder="Ingrese edad del niño.."
-              defaultValue={state=== "CREATE" ? "" : child.age}
+              placeholder="Ingrese edad del niño"
+              defaultValue={state === "CREATE" ? "" : child.age}
             />
-            {errors.age && <p>{errors.age.message}</p>}
+            {errors.age && (
+              <p className=" text-red-600 ">{errors.age.message}</p>
+            )}
           </InputContainer>
-          <InputContainer>
+          <InputContainer className=" mb-8 ">
             <Input
               {...register("disabilityGrade")}
-              placeholder="Ingrese observaciones o grado de"
+              placeholder="Ingrese observaciones del niño"
               defaultValue={state === "CREATE" ? "" : child.disabilityGrade}
             />
-            {errors.observations && <p>{errors.observations.message}</p>}
+            {errors.disabilityGrade && (
+              <p className=" text-red-600 ">{errors.disabilityGrade.message}</p>
+            )}
           </InputContainer>
-          <InputContainer>
-            <Button type="submit">
-              {state === "CREATE" ? "Agregar" : "Actualizar"} niño
+          <InputContainer className=" flex justify-between mt-8 text-white ">
+            <Button
+              type="submit"
+              className=" text-white bg-primary "
+              radius="full"
+              size="lg"
+            >
+              {state === "CREATE" ? (
+                <p>
+                  Agregar niño <i className=" fa-solid fa-plus "></i>
+                </p>
+              ) : (
+                <p>
+                  Actualizar niño <i className=" fa-solid fa-arrows-rotate"></i>
+                </p>
+              )}
+            </Button>
+            <Button
+              type="button"
+              className=" text-white bg-Red "
+              radius="full"
+              size="lg"
+              onClick={() => setShowModal(false)}
+            >
+              Cancelar <i className=" fa-solid fa-times "></i>
             </Button>
           </InputContainer>
         </Form>

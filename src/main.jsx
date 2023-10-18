@@ -9,6 +9,7 @@ import { NextUIProvider } from "@nextui-org/react";
 
 setAxiosSettings();
 
+
 // axios.defaults.baseURL = "http://localhost:5000"
 // version correcta 
 ReactDOM.createRoot(document.getElementById("root")).render(

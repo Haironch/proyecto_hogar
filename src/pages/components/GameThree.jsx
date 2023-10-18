@@ -2,18 +2,14 @@ import axios from "axios";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useDrag, useDrop } from "react-dnd";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { TouchBackend } from 'react-dnd-touch-backend'
+import { TouchBackend } from "react-dnd-touch-backend";
 import "../../App.css";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { formatTime } from "../../utils/helpers";
 
-const colors = {
-  primaryFont: "#fff",
-};
 const styleFlex = styled.div`
   justify-content: center;
   align-items: center;
@@ -22,17 +18,14 @@ const styleFlex = styled.div`
 const SelectedGameWrapper = styled.div`
   width: 100%;
   height: 100%;
-  background-color: #006494;
   padding: 10px 20px;
-  color: ${colors.primaryFont};
 `;
 const SelectedGameContainer = styled.div`
+  display: flex;
   ${styleFlex};
   flex-direction: column;
   height: 90%;
   width: 100%;
-  background: #1982c4;
-  display: flex;
 `;
 const SelectedLetter = styled.div`
   display: flex;
@@ -61,8 +54,9 @@ const LettersGroup = styled.div`
     display: grid;
     grid-template-columns: 200px 200px 200px;
     grid-template-rows: 150px 150px;
-    width: 600px;
+    gap: 10px;
   }
+
   .letter {
     width: 100%;
     display: flex;
@@ -171,7 +165,7 @@ export default function GameThree() {
       id_game: gameId,
       id_child: JSON.parse(localStorage.getItem("selected-child")).id,
     };
-  
+
     const { data } = await axios.post("/api/scores", child_data);
     if (data.status_code === 200) {
       setStartedGame(false);
@@ -180,7 +174,7 @@ export default function GameThree() {
       setL3(false);
       setL4(false);
       setL5(false);
-  
+
       Swal.fire({
         title: "Ganador!",
         text: "Do you want to continue",
@@ -193,7 +187,7 @@ export default function GameThree() {
         "Ha habido un error en el servidor. Intente nuevamente por favor."
       );
     }
-  }
+  };
 
   async function setSelectedRandomLetter() {
     if (availableLetters.length === 0) {
@@ -237,28 +231,32 @@ export default function GameThree() {
     setSeconds(totalSeconds % 60);
   }, [totalSeconds]);
 
-  const isMobile = window.navigator.userAgent.match(/(Android|iPhone|iPad|iPod)/i);
+  const isMobile = window.navigator.userAgent.match(
+    /(Android|iPhone|iPad|iPod)/i
+  );
 
   return (
     <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-      <SelectedGameWrapper>
-        <div>
-          {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
-          {String(seconds).padStart(2, "0")}
+      <SelectedGameWrapper className=" bg-bg ">
+        <div className=" mt-2 w-full ">
+          <p className=" flex justify-center items-center w-[100px] bg-primary text-white text-lg h-[44px] rounded ">
+            {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
+            {String(seconds).padStart(2, "0")}
+          </p>
         </div>
         <div style={{}}></div>
         <SelectedGameContainer>
-          <SelectedLetter>
-            <div className="selected-letter">
+          <SelectedLetter className=" ">
+            <div className="selected-letter text-white bg-primary rounded-[10px] ">
               <span>{selectedLetter}</span>
             </div>
           </SelectedLetter>
-          <LettersGroup>
+          <LettersGroup className=" mt-8 ">
             <div className="letters-container w-auto h-auto ">
               {shownLetters.map((letter) => (
                 <div
                   onClick={() => verifyLetter(letter)}
-                  className="letter bg-black m-3 hover:bg-gray-500 "
+                  className="letter text-[#ff9e00] rounded bg-[#cbf3f0] cursor-pointer hover:scale-105 hover:duration-300 "
                   key={letter}
                 >
                   {letter}

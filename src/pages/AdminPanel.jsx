@@ -23,6 +23,7 @@ const AdminPanelWrapper = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: ${colors.primary};
+  background-color: red;
   color: ${colors.secondary};
   padding: 0 80px;
 `;
@@ -114,14 +115,6 @@ const ChildRowWrapper = styled.div`
     text-align: center;
     width: 25%;
   }
-`;
-const CompletedIcon = styled.i`
-  color: ${colors.blue};
-  font-size: 32px;
-`;
-const UncompletedIcon = styled.i`
-  color: ${colors.red};
-  font-size: 32px;
 `;
 const OptionsButton = styled(Link)`
   ${styleFlex};
