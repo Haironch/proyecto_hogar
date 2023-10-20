@@ -19,7 +19,23 @@ module.exports = {
       },
       fontFamily: {
         font: ['Titillium Web', "sans-serif"]
-      }
+      },
+      screens: { 
+        mms: "270px", 
+        ms: "320px", // px-10px 
+        mm: "375px", 
+        ml: "480px", // px-20px 
+        ts: "576px", // px-30px 
+        tm: "768px", // px-40px 
+        tl: "850px", // px-60px 
+        txl: "950px", // px-80px 
+        ls: "1024px", 
+        lm: "1100px", // 
+        ll: "1200px", // 
+        lxl: "1350px", 
+        d: "2560px", 
+      },
+      
     },
   },
   darkMode: "class",

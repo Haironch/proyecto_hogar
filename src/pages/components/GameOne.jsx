@@ -13,11 +13,11 @@ import { toast } from "react-toastify";
 import { formatTime } from "../../utils/helpers";
 
 // game images
-import oneImg from '/public/games-images/game1/one.png'
-import twoImg from '/public/games-images/game1/two.png'
-import threeImg from '/public/games-images/game1/three.png'
-import fourImg from '/public/games-images/game1/four.png'
-import fiveImg from '/public/games-images/game1/five.png'
+import oneImg from '/games-images/game1/one.png'
+import twoImg from '/games-images/game1/two.png'
+import threeImg from '/games-images/game1/three.png'
+import fourImg from '/games-images/game1/four.png'
+import fiveImg from '/games-images/game1/five.png'
 
 const styleFlex = styled.div`
   //display: "flex;",
@@ -26,31 +26,14 @@ const styleFlex = styled.div`
 `;
 
 const SelectedGameWrapper = styled.div`
-  width: 100%;
-  height: 100%;
   padding: 0 20px;
-`;
-const SelectedGameContainer = styled.div`
-  ${styleFlex};
-  flex-direction: column;
-  height: calc(100% - 60px);
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 const OptionGameContainer = styled.div`
   display: flex;
   justify-content: ${(props) =>
     props.flexend === "true" ? "flex-end" : "space-between"};
   align-items: center;
-  margin-bottom: 20px;
-  width: 650px;
-  height: 100px;
-`;
-const Buttons = styled.button`
-  width: 100px;
-  height: 36px;
+  margin: 20px 0px;
 `;
 
 function SelectedGame() {
@@ -181,15 +164,15 @@ function SelectedGame() {
 
   return (
     <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-      <SelectedGameWrapper className=" bg-bg ">
+      <SelectedGameWrapper className=" w-full h-screen bg-bg ">
         <div className=" mt-2 w-full ">
           <p className=" flex justify-center items-center w-[100px] bg-primary text-white text-lg h-[44px] rounded ">
             {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
             {String(seconds).padStart(2, "0")}
           </p>
         </div>
-        <SelectedGameContainer>
-          <OptionGameContainer flexend={n1.toString()}>
+        <div className=" mt-[32px] ">
+          <OptionGameContainer flexend={n1.toString()} className=" w-full ">
             {!n1 && (
               <DraggableElement
                 value="1"
@@ -197,9 +180,7 @@ function SelectedGame() {
               />
             )}
             <DropTarget
-              onDrop={handleDropOne}
-              //expectedValue={droppedValue}
-              expectedValue="1"
+              onDrop={handleDropFive}
               bg="red"
               items={[1, 2, 3, 4, 5]}
             />
@@ -212,9 +193,7 @@ function SelectedGame() {
               />
             )}
             <DropTarget
-              onDrop={handleDropTwo}
-              //expectedValue={droppedValue}
-              expectedValue="2"
+              onDrop={handleDropThree}
               bg="green"
               items={[1, 2, 3]}
             />
@@ -227,9 +206,7 @@ function SelectedGame() {
               />
             )}
             <DropTarget
-              onDrop={handleDropThree}
-              //expectedValue={droppedValue}
-              expectedValue="3"
+              onDrop={handleDropTwo}
               items={[1, 2]}
             />
           </OptionGameContainer>
@@ -242,8 +219,6 @@ function SelectedGame() {
             )}
             <DropTarget
               onDrop={handleDropFour}
-              //expectedValue={droppedValue}
-              expectedValue="4"
               items={[1, 2, 3, 4]}
             />
           </OptionGameContainer>
@@ -255,13 +230,11 @@ function SelectedGame() {
               />
             )}
             <DropTarget
-              onDrop={handleDropFive}
-              //expectedValue={droppedValue}
-              expectedValue="5"
+              onDrop={handleDropOne}
               items={[1]}
             />
           </OptionGameContainer>
-        </SelectedGameContainer>
+        </div>
       </SelectedGameWrapper>
     </DndProvider>
   );
@@ -289,7 +262,7 @@ const DraggableElement = ({ value, imgUrl }) => {
         ref(instance);
         instance && (instance.style.display = isDragging ? "none" : "block");
       }}
-      className="draggable-element "
+      className="draggable-element w-[100px] h-[100px] "
       style={elementStyle}
     >
       <img

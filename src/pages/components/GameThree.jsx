@@ -16,8 +16,6 @@ const styleFlex = styled.div`
 `;
 
 const SelectedGameWrapper = styled.div`
-  width: 100%;
-  height: 100%;
   padding: 10px 20px;
 `;
 const SelectedGameContainer = styled.div`
@@ -237,15 +235,14 @@ export default function GameThree() {
 
   return (
     <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-      <SelectedGameWrapper className=" bg-bg ">
+      <SelectedGameWrapper className=" w-full min-h-screen h-screen max-h-screen bg-bg ">
         <div className=" mt-2 w-full ">
           <p className=" flex justify-center items-center w-[100px] bg-primary text-white text-lg h-[44px] rounded ">
             {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
             {String(seconds).padStart(2, "0")}
           </p>
         </div>
-        <div style={{}}></div>
-        <SelectedGameContainer>
+        <SelectedGameContainer className=" mt-[48px] ">
           <SelectedLetter className=" ">
             <div className="selected-letter text-white bg-primary rounded-[10px] ">
               <span>{selectedLetter}</span>
@@ -256,7 +253,7 @@ export default function GameThree() {
               {shownLetters.map((letter) => (
                 <div
                   onClick={() => verifyLetter(letter)}
-                  className="letter text-[#ff9e00] rounded bg-[#cbf3f0] cursor-pointer hover:scale-105 hover:duration-300 "
+                  className="letter text-[#ff9e00] rounded bg-[#cbf3f0] select-none cursor-pointer hover:scale-105 hover:duration-300 "
                   key={letter}
                 >
                   {letter}

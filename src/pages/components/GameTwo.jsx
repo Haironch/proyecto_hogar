@@ -11,11 +11,11 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 
 import { formatTime } from "../../utils/helpers";
 
-import tringuloImg from "/games-images/game2/tringulo.png";
-import cuadradoImg from "/games-images/game2/cuadrado.jpeg";
-import hexagonoImg from "/games-images/game2/hexagono.png";
-import pentagonoImg from "/games-images/game2/pentagono.jpg";
-import circuloImg from "/games-images/game2/circulo.png";
+import tringuloImg from "/games-images/game2/img1.png";
+import cuadradoImg from "/games-images/game2/img3.png";
+import hexagonoImg from "/games-images/game2/img2.png";
+import pentagonoImg from "/games-images/game2/img5.png";
+import circuloImg from "/games-images/game2/img4.png";
 
 const styleFlex = styled.div`
   //display: "flex;",
@@ -24,14 +24,10 @@ const styleFlex = styled.div`
 `;
 
 const SelectedGameWrapper = styled.div`
-  width: 100%;
-  height: 100%;
   padding: 0 20px;
 `;
 const SelectedGameContainer = styled.div`
   ${styleFlex};
-  height: calc(100% - 40px);
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,7 +40,7 @@ const OptionGameContainer = styled.div`
   align-items: center;
   margin-bottom: 5px;
   width: 650px;
-  height: 420px;
+  height: 600px;
 `;
 
 export default function GameTow() {
@@ -175,59 +171,47 @@ export default function GameTow() {
 
   return (
     <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-      <SelectedGameWrapper className=" bg-bg ">
+      <SelectedGameWrapper className=" w-full min-h-screen h-screen max-h-screen bg-bg ">
         <div className=" mt-2 w-full ">
           <p className=" flex justify-center items-center w-[100px] bg-primary text-white text-lg h-[44px] rounded ">
             {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
             {String(seconds).padStart(2, "0")}
           </p>
         </div>
-        <SelectedGameContainer>
+        <SelectedGameContainer className=" mt-[48px] w-full ">
           <OptionGameContainer flexend={n1.toString()}>
             {!n1 && <DraggableElement value="1" imgUrl={tringuloImg} />}
             <DropTarget
               onDrop={handleDropOne}
-              //expectedValue={droppedValue}
               expectedValue="1"
-              items="1"
-              bg="red"
             />
           </OptionGameContainer>
           <OptionGameContainer flexend={n2.toString()}>
             {!n2 && <DraggableElement value="2" imgUrl={cuadradoImg} />}
             <DropTarget
               onDrop={handleDropTwo}
-              //expectedValue={droppedValue}
               expectedValue="2"
-              items="2"
-              bg="green"
             />
           </OptionGameContainer>
           <OptionGameContainer flexend={n3.toString()}>
             {!n3 && <DraggableElement value="3" imgUrl={hexagonoImg} />}
             <DropTarget
               onDrop={handleDropThree}
-              //expectedValue={droppedValue}
               expectedValue="3"
-              items={[1, 2, 3]}
             />
           </OptionGameContainer>
           <OptionGameContainer flexend={n4.toString()}>
             {!n4 && <DraggableElement value="4" imgUrl={pentagonoImg} />}
             <DropTarget
               onDrop={handleDropFour}
-              //expectedValue={droppedValue}
               expectedValue="4"
-              items={[1, 2, 3, 4]}
             />
           </OptionGameContainer>
           <OptionGameContainer flexend={n5.toString()}>
             {!n5 && <DraggableElement value="5" imgUrl={circuloImg} />}
             <DropTarget
               onDrop={handleDropFive}
-              //expectedValue={droppedValue}
               expectedValue="5"
-              items={[1, 2, 3, 4, 5]}
             />
           </OptionGameContainer>
         </SelectedGameContainer>
@@ -248,13 +232,12 @@ const DraggableElement = ({ value, imgUrl }) => {
 
   // <p className=" w-[80px] h-[80px] text-3xl bg-black "></p>
   return (
-    <div ref={ref} className="draggable-element">
+    <div ref={ref} className="draggable-element w-[150px] h-[150px] ">
       <img
         src={imgUrl}
         alt=""
-        width={100}
-        height={100}
         onContextMenu={handleContextMenu}
+        className=" w-[150px] h-[150px] "
       />
     </div>
   );
@@ -262,8 +245,6 @@ const DraggableElement = ({ value, imgUrl }) => {
 
 // drop target
 const DropTargetWrapper = styled.div`
-  width: 150px;
-  min-height: 90px;
   background-color: transparent;
   background-color: red;
   display: flex;
@@ -282,7 +263,7 @@ const DropTargetWrapper = styled.div`
   }
 `;
 
-const DropTarget = ({ onDrop, expectedValue, items, bg = "white" }) => {
+const DropTarget = ({ onDrop, expectedValue }) => {
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: "ELEMENT",
     drop: (item) => onDrop(item.value),
@@ -295,22 +276,26 @@ const DropTarget = ({ onDrop, expectedValue, items, bg = "white" }) => {
   const getImage = () => {
     switch (expectedValue) {
       case "1":
-        return <img src={tringuloImg} width={100} height={100} />;
+        return <img src={tringuloImg} className=" w-[150px] h-[150px] " />;
       case "2":
-        return <img src={cuadradoImg} width={100} height={100} />;
+        return <img src={cuadradoImg} className=" w-[150px] h-[150px] " />;
       case "3":
-        return <img src={hexagonoImg} width={100} height={100} />;
+        return <img src={hexagonoImg} className=" w-[150px] h-[150px] " />;
       case "4":
-        return <img src={pentagonoImg} width={100} height={100} />;
+        return <img src={pentagonoImg} className=" w-[150px] h-[150px] " />;
       case "5":
-        return <img src={circuloImg} width={100} height={100} />;
+        return <img src={circuloImg} className=" w-[150px] h-[150px] " />;
     }
   };
 
-  const backgroundColor = isOver && canDrop ? bg : "transparent";
+  const backgroundColor = isOver && canDrop ? "#EF476F" : "transparent";
 
   return (
-    <DropTargetWrapper ref={drop} style={{ backgroundColor }}>
+    <DropTargetWrapper
+      ref={drop}
+      style={{ backgroundColor }}
+      className=" w-[150px] h-[150px] rounded-[10px] "
+    >
       {getImage()}
     </DropTargetWrapper>
   );

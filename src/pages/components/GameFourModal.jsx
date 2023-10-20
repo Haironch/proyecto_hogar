@@ -1,26 +1,10 @@
 import styled from "styled-components";
+import { useState } from "react";
 import { JigsawPuzzle } from "react-jigsaw-puzzle/lib";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
-const colors = [
-  "default",
-  "primary",
-  "secondary",
-  "success",
-  "warning",
-  "danger",
-];
-
-const colors_theme = {
-  primary: "#8AC926",
-  secondary: "#003566",
-  primaryHover: "#0077B6",
-  texto: "#0582CA",
-  fontfamily: "'Chakra Petch', sans-serif",
-};
-
 const CreateUpdateChildModalWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -29,22 +13,31 @@ const CreateUpdateChildModalWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
-  color: ${colors_theme.text};
-  background-color: rgba(0, 0, 0, 0.5);
-  .close-icon {
-    position: absolute;
-    top: 56px;
-    right: 56px;
-    color: red;
-    font-size: 36px;
-    cursor: pointer;
-  }
+
+  background-color: rgb(6, 214, 160, 0.8);
 `;
 
 function CreateUpdateChildModal({ setShowModal, image, size }) {
   // const { getChilds, getChildByID } = useContext(GamesContext);
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [source, setSource] = useState(null);
+
+  const handleDragStart = (event) => {
+    // Evitar que la pagina haga scroll
+    event.preventDefault();
+
+    // Establecer el estado de arrastre
+    setIsDragging(true);
+
+    // Guardar la pieza que se está arrastrando
+    setSource(event.target);
+  };
+
+  const handleDragEnd = () => {
+    // Borrar el estado de arrastre
+    setIsDragging(false);
+  };
 
   const set = () => {
     Swal.fire({
@@ -57,22 +50,27 @@ function CreateUpdateChildModal({ setShowModal, image, size }) {
   };
 
   return (
-    <CreateUpdateChildModalWrapper>
-      <div className=" w-[800px] h-[800px] bg-[#8338ec] ">
-        <div className=" flex justify-center items-center w-full h-[64px] ">
-          <button onClick={() => setShowModal(false)} className=" bg-blue-400 ">
+    <CreateUpdateChildModalWrapper onClick={() => setShowModal(false)}>
+      <div className=" w-[600px] h-[600px] bg-navbar rounded-[10px] ">
+        <div className=" flex justify-end items-center px-[50px] w-full h-[64px] ">
+          <button
+            onClick={() => setShowModal(false)}
+            className=" px-[10px] py-[10px] text-white bg-blue-400 rounded "
+          >
             Volver
           </button>
         </div>
-        <div className=" flex justify-center items-center mx-auto w-[700px] h-[700px] ">
+        <div className=" mx-auto w-[500px] h-[500px] bg-[#f2c660] ">
           <JigsawPuzzle
             imageSrc={image}
             rows={size.x}
             columns={size.y}
             onSolved={set}
-            className="jigsaw-puzzle "
-            scale={2}
-            zoom={2}
+            className=""
+            scale={1}
+            zoom={1}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
           />
         </div>
       </div>

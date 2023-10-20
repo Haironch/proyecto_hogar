@@ -1,14 +1,12 @@
 import styled from "styled-components";
 import { useEffect, useState, useRef } from "react";
 
-import AdminNavbar from "../../components/AdminNavbar";
-
-import ImgOne from "/games-images/game4/img1.jpeg";
-import ImgTwo from "/games-images/game4/cachorros.jpg";
-import ImgThree from "/games-images/game4/cachorros.jpg";
-import ImgFour from "/games-images/game4/cachorros.jpg";
-import ImgFive from "/games-images/game4/img5.jpeg";
-import ImgSix from "/games-images/game4/img5.jpeg";
+import ImgOne from "/games-images/game4/img1.jpg";
+import ImgTwo from "/games-images/game4/img2.jpg";
+import ImgThree from "/games-images/game4/img3.jpg";
+import ImgFour from "/games-images/game4/img4.jpg";
+import ImgFive from "/games-images/game4/img5.jpg";
+import ImgSix from "/games-images/game4/img6.jpg";
 
 import GameFourModal from "./GameFourModal";
 

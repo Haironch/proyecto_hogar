@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
@@ -16,6 +17,21 @@ import "react-toastify/dist/ReactToastify.css";
 import GamesState from "./context/games/State";
 
 function App() {
+  // const [orientation, setOrientation] = useState("portrait");
+
+  // useEffect(() => {
+  //   window.addEventListener("orientationchange", handleOrientationChange);
+
+  //   return () => {
+  //     window.removeEventListener("orientationchange", handleOrientationChange);
+  //   };
+  // }, []);
+
+  // const handleOrientationChange = () => {
+  //   const newOrientation = window.orientation;
+
+  //   setOrientation(newOrientation === 0 || newOrientation === 180 ? "portrait" : "landscape");
+  // };
 
   return (
     <GamesState>
@@ -62,6 +78,7 @@ function App() {
               </ProtectcRoute>
             }
           />
+          <Route path="*" element={<h1> Page not found</h1>} />
         </Routes>
         <ToastContainer />
       </BrowserRouter>

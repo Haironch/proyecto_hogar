@@ -7,7 +7,7 @@ const AdminNavbarWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 75px;
+  height: 76px;
 
   .user {
     display: inherit;
