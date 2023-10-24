@@ -27,44 +27,32 @@ const styleFlex = {
 const AdminPanelWrapper = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: ${colors.primary};
-  color: ${colors.secondary};
-  padding: 0 80px;
 `;
 const AdminPanelContainer = styled.div`
   ${styleFlex};
   flex-direction: column;
-  height: calc(100% - 150px);
+  height: 100%;
   width: 100%;
-  background-color: blueviolet;
-
   .games {
     ${styleFlex};
     justify-content: space-between;
-    width: 100%;
 
     a {
       display: block;
-      border: 2px solid black;
-      height: 250px;
-      width: 250px;
     }
   }
 `;
 const AdminPanelContent = styled.div`
-  width: 80%;
+  width: 90%;
 `;
 const Table = styled.div`
-  border: 2px solid white;
   width: 100%;
 
   .table-row-header {
     ${styleFlex};
     justify-content: space-between;
-    height: 48px;
     font-size: 24px;
     border-bottom: 2px solid white;
-
     div {
       text-align: center;
       width: calc(70% / 3);
@@ -121,7 +109,7 @@ function AdminPanel() {
   return (
     <AdminPanelWrapper>
       <AdminNavbar />
-      <AdminPanelContainer>
+      <AdminPanelContainer className=" relative pb-[68px] bg-bg ">
         <AdminPanelContent>
           <ChildHeader child={child} />
           <Table>
@@ -212,7 +200,6 @@ function ChildRow({ game }) {
 const ChildHeaderWrapper = styled.div`
   margin-bottom: 32px;
   width: 100%;
-  border: 1px solid blue;
 
   .child {
     display: flex;
@@ -296,20 +283,23 @@ function ChildHeader({ child }) {
       </div>
       <div className="actions flex mb-[32px] w-full ">
         <div>
-        <Link to="/admin/panel" className=" flex justify-center items-center w-[100px] h-[48px] uppercase bg-blue-400 rounded " >
-          <i className="fa-solid fa-"></i>
-          Atrás
-        </Link>
+          <Link
+            to="/admin/panel"
+            className=" flex justify-center items-center w-[100px] h-[48px] uppercase bg-blue-400 rounded "
+          >
+            <i className="fa-solid fa-"></i>
+            Atrás
+          </Link>
         </div>
         <div className=" flex ">
-        <ButtonUpdate onClick={() => setShowModal(true)}>
-          <i className="fa-solid fa-pen-to-square"></i>
-          Modificar datos
-        </ButtonUpdate>
-        <ButtonDelete onClick={deleteChild}>
-          <i className="fa-solid fa-times-circle"></i>
-          Eliminar
-        </ButtonDelete>
+          <ButtonUpdate onClick={() => setShowModal(true)}>
+            <i className="fa-solid fa-pen-to-square"></i>
+            Modificar datos
+          </ButtonUpdate>
+          <ButtonDelete onClick={deleteChild}>
+            <i className="fa-solid fa-times-circle"></i>
+            Eliminar
+          </ButtonDelete>
         </div>
       </div>
 

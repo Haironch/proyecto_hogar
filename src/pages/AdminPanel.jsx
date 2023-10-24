@@ -20,19 +20,14 @@ const styleFlex = {
 };
 
 const AdminPanelWrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background-color: ${colors.primary};
-  background-color: red;
   color: ${colors.secondary};
-  padding: 0 80px;
+height: 100vh;
 `;
 const AdminPanelContainer = styled.div`
   /* ${styleFlex}; */
   
-  height: calc(100% - 150px);
+  height: 100%;
   width: 100%;
-  background-color: blueviolet;
 
   .games {
     ${styleFlex};
@@ -41,7 +36,6 @@ const AdminPanelContainer = styled.div`
 
     a {
       display: block;
-      border: 2px solid black;
       height: 250px;
       width: 250px;
     }
@@ -73,7 +67,7 @@ function AdminPanel() {
   return (
     <AdminPanelWrapper>
       <AdminNavbar />
-      <AdminPanelContainer className=" border border-yellow-400 ">
+      <AdminPanelContainer className="relative pb-[68px] bg-bg overflow-y-auto |">
         <div className=" w-full ">
           <Link
             to="/admin"
@@ -83,14 +77,14 @@ function AdminPanel() {
             Atrás
           </Link>
         </div>
-        <Table className=" w-full border border-black ">
-          <div className="table-row-header">
+        <Table className=" w-ful border-b border-dark ">
+          <div className="table-row-header border-y border-dark ">
             <div>Niños</div>
           </div>
           {childs.length > 0 ? (
             childs.map((child) => <ChildRow child={child} key={child.id} />)
           ) : (
-            <div className=" flex justify-center items-center w-full h-[100px] ">
+            <div className="  flex justify-center items-center w-full h-[100px] ">
               <p>No hay niños</p>
             </div>
           )}
