@@ -9,7 +9,7 @@ import { Input } from "@nextui-org/react";
 
 import { toast } from "react-toastify";
 
-import logo from "/public/hermano-pedro-hogar-logo.jpeg"
+import logo from "/public/hermano-pedro-hogar-logo.jpeg";
 
 const schema = yup.object({
   name: yup.string().required("Ingrese su nombre por favor"),
@@ -22,7 +22,6 @@ const HomeWrapper = styled("div")`
   align-items: center;
 `;
 const Form = styled.form`
-
   .user-logo {
     text-align: center;
     width: 100%;
@@ -34,7 +33,7 @@ const InputContainer = styled.div`
   width: 100%;
   height: 50px;
 
-  input { 
+  input {
     width: 100%;
     height: 100%;
   }
@@ -51,11 +50,11 @@ function Home() {
   const onSubmit = async (formdata) => {
     const { data } = await axios.post("/api/login", formdata);
     if (data.status_code === 200) {
-      localStorage.setItem("user_token", JSON.stringify(data.token))
-      localStorage.setItem("user_data", JSON.stringify(data.user_data))
+      localStorage.setItem("user_token", JSON.stringify(data.token));
+      localStorage.setItem("user_data", JSON.stringify(data.user_data));
       navigate("/admin");
     } else {
-      toast.warning("Datos inválidos")
+      toast.warning("Datos inválidos");
     }
   };
 
@@ -64,10 +63,17 @@ function Home() {
   }
 
   return (
-    <HomeWrapper className=" w-screen h-screen bg-bg ">
-      <Form className=" mms:w-[90%] ml:w-[80%] ts:w-[500px] h-auto " onSubmit={handleSubmit(onSubmit)}>
+    <HomeWrapper className=" flex justify-between items-center w-screen h-screen min-h-[700px] bg-bg overflow-y-auto ">
+      <Form
+        className=" mms:w-[90%] ml:w-[80%] ts:w-[500px] min-h-[500x] "
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className="user-logo">
-          <img src={logo} className=" rounded-[10px] " alt="Hermano Pedro Hogar" />
+          <img
+            src={logo}
+            className=" rounded-[10px] "
+            alt="Hermano Pedro Hogar"
+          />
         </div>
         <InputContainer>
           <Input
@@ -76,7 +82,9 @@ function Home() {
             placeholder="Ingrese su nombre"
             className=" h-[80px] "
           />
-          {errors.name && <p className=" text-red-600 ">{errors.name.message}</p>}
+          {errors.name && (
+            <p className=" text-red-600 ">{errors.name.message}</p>
+          )}
         </InputContainer>
         <InputContainer>
           <Input
@@ -85,10 +93,19 @@ function Home() {
             type="password"
             placeholder="Ingrese su contraseña"
           />
-          {errors.password && <p className=" text-red-600 ">{errors.password.message}</p>}
+          {errors.password && (
+            <p className=" text-red-600 ">{errors.password.message}</p>
+          )}
         </InputContainer>
         <InputContainer>
-          <Button type="submit" color="primary" className=" " variant="ghost" radius="full" size="lg">
+          <Button
+            type="submit"
+            color="primary"
+            className=" "
+            variant="ghost"
+            radius="full"
+            size="lg"
+          >
             Ingresar
           </Button>
         </InputContainer>

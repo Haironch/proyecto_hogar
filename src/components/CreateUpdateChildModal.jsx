@@ -27,7 +27,7 @@ const colors_theme = {
 };
 
 const CreateUpdateChildModalWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -35,10 +35,7 @@ const CreateUpdateChildModalWrapper = styled.div`
   z-index: 100;
   display: flex;
   justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  color: ${colors_theme.text};
+  color: ${colors_theme.texto};
 
   background-color: rgba(0, 0, 0, 0.5);
   .close-icon {
@@ -51,7 +48,6 @@ const CreateUpdateChildModalWrapper = styled.div`
   }
 `;
 const Content = styled.div`
-  width: auto;
   background-color: #81b29a;
   border-radius: 20px;
 
@@ -62,7 +58,6 @@ const Content = styled.div`
 
 // form
 const Form = styled.form`
-  width: 500px;
   padding: 5px;
 
   .user-logo {
@@ -117,17 +112,23 @@ function CreateUpdateChildModal({ setShowModal, state, child }) {
   };
 
   return (
-    <CreateUpdateChildModalWrapper onClick={() => setShowModal(false)}>
+    <CreateUpdateChildModalWrapper
+      onClick={() => setShowModal(false)}
+      className=" py-[20px] overflow-y-auto "
+    >
       <Content
         onClick={(e) => e.stopPropagation()}
-        className=" px-[24px] pt-[32px] h-auto "
+        className=" mms:w-[90%] mms:h-[700px] ml:w-[500px] ml:h-[600px]  px-[24px] pt-[32px] w-[50%] "
       >
         <h1 className="form-title text-3xl text-primary ">
           {state === "CREATE"
             ? "Agregar información del niño"
             : "Actualizar información del niño"}
         </h1>
-        <Form onSubmit={handleSubmit(onSubmit)} className=" h-auto text-dark ">
+        <Form
+          onSubmit={handleSubmit(onSubmit)}
+          className=" h-auto text-dark "
+        >
           <div className="user-logo text-navbar ">
             <i className="fa-solid fa-child-reaching"></i>
           </div>
@@ -172,7 +173,7 @@ function CreateUpdateChildModal({ setShowModal, state, child }) {
               <p className=" text-red-600 ">{errors.disabilityGrade.message}</p>
             )}
           </InputContainer>
-          <InputContainer className=" flex justify-between mt-8 text-white ">
+          <InputContainer className=" mms:flex-col ml:flex-row flex justify-between mt-6 text-white ">
             <Button
               type="submit"
               className=" text-white bg-primary "
@@ -191,7 +192,7 @@ function CreateUpdateChildModal({ setShowModal, state, child }) {
             </Button>
             <Button
               type="button"
-              className=" text-white bg-Red "
+              className=" mms:mt-[10px] ml:mt-0 text-white bg-Red "
               radius="full"
               size="lg"
               onClick={() => setShowModal(false)}

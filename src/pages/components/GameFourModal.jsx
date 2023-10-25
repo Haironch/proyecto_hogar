@@ -13,7 +13,6 @@ const CreateUpdateChildModalWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
   background-color: rgb(6, 214, 160, 0.8);
 `;
 
@@ -45,13 +44,17 @@ function CreateUpdateChildModal({ setShowModal, image, size }) {
       text: "",
       icon: "success",
       confirmButtonColor: "#8338ec",
-      confirmButtonText: "Cool",
+      confirmButtonText: "Ir al menu de juegos",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setShowModal(false);
+      }
     });
   };
 
   return (
-    <CreateUpdateChildModalWrapper onClick={() => setShowModal(false)}>
-      <div className=" w-[600px] h-[600px] bg-navbar rounded-[10px] ">
+    <CreateUpdateChildModalWrapper className=" overflow-y-auto ">
+      <div className=" w-[90vh] h-[90vh] bg-navbar rounded-[10px] border-2 border-black ">
         <div className=" flex justify-end items-center px-[50px] w-full h-[64px] ">
           <button
             onClick={() => setShowModal(false)}
@@ -60,7 +63,7 @@ function CreateUpdateChildModal({ setShowModal, image, size }) {
             Volver
           </button>
         </div>
-        <div className=" mx-auto w-[500px] h-[500px] bg-[#f2c660] ">
+        <div className=" mx-auto w-[calc(90vh-80px)] h-[calc(90vh-80px)] bg-[#f2c660] ">
           <JigsawPuzzle
             imageSrc={image}
             rows={size.x}

@@ -1,7 +1,7 @@
 import axios from "axios";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDrag, useDrop } from "react-dnd";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -19,12 +19,6 @@ import threeImg from '/games-images/game1/three.png'
 import fourImg from '/games-images/game1/four.png'
 import fiveImg from '/games-images/game1/five.png'
 
-const styleFlex = styled.div`
-  //display: "flex;",
-  justify-content: center;
-  align-items: center;
-`;
-
 const SelectedGameWrapper = styled.div`
   padding: 0 20px;
 `;
@@ -33,7 +27,7 @@ const OptionGameContainer = styled.div`
   justify-content: ${(props) =>
     props.flexend === "true" ? "flex-end" : "space-between"};
   align-items: center;
-  margin: 20px 0px;
+  margin-bottom: 5px;
 `;
 
 function SelectedGame() {
@@ -103,7 +97,8 @@ function SelectedGame() {
     setStartedGame(true);
   };
 
-  const { gameId } = useParams();
+  const { childId, gameId } = useParams();
+  const navigate = useNavigate();
 
   const setScores = async () => {
     const child_data = {
@@ -116,10 +111,15 @@ function SelectedGame() {
     if (data.status_code === 200) {
       Swal.fire({
         title: "Ganador!",
-        text: "Do you want to continue",
         icon: "success",
         confirmButtonColor: "#202020",
-        confirmButtonText: "Cool",
+        confirmButtonText: "Ir al menu de juegos",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          return navigate(`/admin/${childId}`);
+        }
       });
     } else {
       toast.error(
@@ -262,7 +262,7 @@ const DraggableElement = ({ value, imgUrl }) => {
         ref(instance);
         instance && (instance.style.display = isDragging ? "none" : "block");
       }}
-      className="draggable-element w-[100px] h-[100px] "
+      className="draggable-element w-[80px] h-[80px] "
       style={elementStyle}
     >
       <img
@@ -279,8 +279,6 @@ const DraggableElement = ({ value, imgUrl }) => {
 
 // drop target
 const DropTargetWrapper = styled.div`
-  width: 200px;
-  min-height: 90px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -308,7 +306,7 @@ const DropTarget = ({ onDrop, expectedValue, items, bg = "white" }) => {
   const backgroundColor = isOver && canDrop ? "#EF476F" : "transparent";
 
   return (
-    <DropTargetWrapper ref={drop} style={{ backgroundColor }} className=" rounded " >
+    <DropTargetWrapper ref={drop} style={{ backgroundColor }} className=" mms:flex-wrap mms:w-[150px] ml:flex-nowrap ml:w-[200px] min-h-[90px] rounded " >
       {items.map((value, index) => (
         <div className="circle bg-white " key={index} />
       ))}

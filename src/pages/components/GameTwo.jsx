@@ -1,7 +1,7 @@
 import axios from "axios";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDrag, useDrop } from "react-dnd";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -18,7 +18,6 @@ import pentagonoImg from "/games-images/game2/img5.png";
 import circuloImg from "/games-images/game2/img4.png";
 
 const styleFlex = styled.div`
-  //display: "flex;",
   justify-content: center;
   align-items: center;
 `;
@@ -39,8 +38,7 @@ const OptionGameContainer = styled.div`
     props.flexend === "true" ? "flex-end" : "space-between"};
   align-items: center;
   margin-bottom: 5px;
-  width: 650px;
-  height: 600px;
+  /* width: 650px; */
 `;
 
 export default function GameTow() {
@@ -110,7 +108,8 @@ export default function GameTow() {
     setStartedGame(true);
   };
 
-  const { gameId } = useParams();
+  const { childId, gameId } = useParams();
+  const navigate = useNavigate();
 
   const setScores = async () => {
     const child_data = {
@@ -123,10 +122,15 @@ export default function GameTow() {
     if (data.status_code === 200) {
       Swal.fire({
         title: "Ganador!",
-        text: "Do you want to continue",
         icon: "success",
         confirmButtonColor: "#202020",
-        confirmButtonText: "Cool",
+        confirmButtonText: "Ir al menu de juegos",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          return navigate(`/admin/${childId}`);
+        }
       });
     } else {
       toast.error(
@@ -178,40 +182,40 @@ export default function GameTow() {
             {String(seconds).padStart(2, "0")}
           </p>
         </div>
-        <SelectedGameContainer className=" mt-[48px] w-full ">
-          <OptionGameContainer flexend={n1.toString()}>
+        <SelectedGameContainer className=" mt-[48px] w-full h-full ">
+          <OptionGameContainer flexend={n1.toString()} className=" w-[25%] h-full ">
             {!n1 && <DraggableElement value="1" imgUrl={tringuloImg} />}
             <DropTarget
-              onDrop={handleDropOne}
-              expectedValue="1"
+              onDrop={handleDropFive}
+              expectedValue="5"
             />
           </OptionGameContainer>
-          <OptionGameContainer flexend={n2.toString()}>
+          <OptionGameContainer flexend={n2.toString()} className=" w-[25%] h-full ">
             {!n2 && <DraggableElement value="2" imgUrl={cuadradoImg} />}
             <DropTarget
-              onDrop={handleDropTwo}
-              expectedValue="2"
+              onDrop={handleDropFour}
+              expectedValue="4"
             />
           </OptionGameContainer>
-          <OptionGameContainer flexend={n3.toString()}>
+          <OptionGameContainer flexend={n3.toString()} className=" w-[25%] h-full ">
             {!n3 && <DraggableElement value="3" imgUrl={hexagonoImg} />}
             <DropTarget
               onDrop={handleDropThree}
               expectedValue="3"
             />
           </OptionGameContainer>
-          <OptionGameContainer flexend={n4.toString()}>
+          <OptionGameContainer flexend={n4.toString()} className=" w-[25%] h-full ">
             {!n4 && <DraggableElement value="4" imgUrl={pentagonoImg} />}
             <DropTarget
-              onDrop={handleDropFour}
-              expectedValue="4"
+              onDrop={handleDropTwo}
+              expectedValue="2"
             />
           </OptionGameContainer>
-          <OptionGameContainer flexend={n5.toString()}>
+          <OptionGameContainer flexend={n5.toString()} className=" w-[25%] h-full ">
             {!n5 && <DraggableElement value="5" imgUrl={circuloImg} />}
             <DropTarget
-              onDrop={handleDropFive}
-              expectedValue="5"
+              onDrop={handleDropOne}
+              expectedValue="1"
             />
           </OptionGameContainer>
         </SelectedGameContainer>
@@ -232,12 +236,12 @@ const DraggableElement = ({ value, imgUrl }) => {
 
   // <p className=" w-[80px] h-[80px] text-3xl bg-black "></p>
   return (
-    <div ref={ref} className="draggable-element w-[150px] h-[150px] ">
+    <div ref={ref} className="draggable-element mms:w-full ">
       <img
         src={imgUrl}
         alt=""
         onContextMenu={handleContextMenu}
-        className=" w-[150px] h-[150px] "
+        className=" mms:w-full mms:h-auto "
       />
     </div>
   );
@@ -245,8 +249,6 @@ const DraggableElement = ({ value, imgUrl }) => {
 
 // drop target
 const DropTargetWrapper = styled.div`
-  background-color: transparent;
-  background-color: red;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -254,13 +256,6 @@ const DropTargetWrapper = styled.div`
   transition: background-color 0.3s ease-in-out;
   cursor: pointer;
 
-  .circle {
-    margin: 8px;
-    width: 24px;
-    height: 24px;
-    border-radius: 100%;
-    background-color: white;
-  }
 `;
 
 const DropTarget = ({ onDrop, expectedValue }) => {
@@ -276,15 +271,15 @@ const DropTarget = ({ onDrop, expectedValue }) => {
   const getImage = () => {
     switch (expectedValue) {
       case "1":
-        return <img src={tringuloImg} className=" w-[150px] h-[150px] " />;
+        return <img src={tringuloImg} className=" mms:w-full mms:h-auto " />;
       case "2":
-        return <img src={cuadradoImg} className=" w-[150px] h-[150px] " />;
+        return <img src={cuadradoImg} className=" mms:w-full mms:h-auto " />;
       case "3":
-        return <img src={hexagonoImg} className=" w-[150px] h-[150px] " />;
+        return <img src={hexagonoImg} className=" mms:w-full mms:h-auto " />;
       case "4":
-        return <img src={pentagonoImg} className=" w-[150px] h-[150px] " />;
+        return <img src={pentagonoImg} className=" mms:w-full mms:h-auto " />;
       case "5":
-        return <img src={circuloImg} className=" w-[150px] h-[150px] " />;
+        return <img src={circuloImg} className=" mms:w-full mms:h-auto " />;
     }
   };
 
@@ -294,7 +289,7 @@ const DropTarget = ({ onDrop, expectedValue }) => {
     <DropTargetWrapper
       ref={drop}
       style={{ backgroundColor }}
-      className=" w-[150px] h-[150px] rounded-[10px] "
+      className=" mms:full mms:h-auto rounded-[10px] "
     >
       {getImage()}
     </DropTargetWrapper>

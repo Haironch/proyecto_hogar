@@ -1,7 +1,7 @@
 import axios from "axios";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
@@ -16,13 +16,13 @@ const styleFlex = styled.div`
 `;
 
 const SelectedGameWrapper = styled.div`
-  padding: 10px 20px;
+  box-sizing: border-box;
 `;
+
 const SelectedGameContainer = styled.div`
   display: flex;
   ${styleFlex};
   flex-direction: column;
-  height: 90%;
   width: 100%;
 `;
 const SelectedLetter = styled.div`
@@ -30,51 +30,31 @@ const SelectedLetter = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 170px;
   margin-bottom: 5px;
 
   .selected-letter {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 200px;
-    height: 200px;
-    font-size: 232px;
   }
 `;
 const LettersGroup = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  height: 300px;
 
   .letters-container {
     display: grid;
-    grid-template-columns: 200px 200px 200px;
-    grid-template-rows: 150px 150px;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 100px 100px;
     gap: 10px;
   }
 
   .letter {
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    font-size: 160px;
   }
-`;
-const Letter = styled("div")`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  font-size: 160px;
-  border: 1px solid white;
-  background-color: blue;
-
-  background-color: ${({ state }) => (state === "true" ? "red" : "blue")};
 `;
 
 export default function GameThree() {
@@ -155,7 +135,8 @@ export default function GameThree() {
     );
   };
 
-  const { gameId } = useParams();
+  const { childId, gameId } = useParams();
+  const navigate = useNavigate();
 
   const makeWinner = async () => {
     const child_data = {
@@ -175,10 +156,15 @@ export default function GameThree() {
 
       Swal.fire({
         title: "Ganador!",
-        text: "Do you want to continue",
         icon: "success",
         confirmButtonColor: "#202020",
-        confirmButtonText: "Cool",
+        confirmButtonText: "Ir al menu de juegos",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          return navigate(`/admin/${childId}`);
+        }
       });
     } else {
       toast.error(
@@ -235,25 +221,25 @@ export default function GameThree() {
 
   return (
     <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-      <SelectedGameWrapper className=" w-full min-h-screen h-screen max-h-screen bg-bg ">
+      <SelectedGameWrapper className=" w-full h-auto ">
         <div className=" mt-2 w-full ">
           <p className=" flex justify-center items-center w-[100px] bg-primary text-white text-lg h-[44px] rounded ">
             {String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
             {String(seconds).padStart(2, "0")}
           </p>
         </div>
-        <SelectedGameContainer className=" mt-[48px] ">
-          <SelectedLetter className=" ">
-            <div className="selected-letter text-white bg-primary rounded-[10px] ">
-              <span>{selectedLetter}</span>
+        <SelectedGameContainer className=" mt-[48px] h-auto ">
+          <SelectedLetter className="">
+            <div className="selected-letter w-[100px] h-[100px] text-8xl text-white bg-primary rounded-[10px] ">
+              <span className=" select-none ">{selectedLetter}</span>
             </div>
           </SelectedLetter>
           <LettersGroup className=" mt-8 ">
-            <div className="letters-container w-auto h-auto ">
+            <div className="letters-container mms:w-full ml:w-auto ">
               {shownLetters.map((letter) => (
                 <div
                   onClick={() => verifyLetter(letter)}
-                  className="letter text-[#ff9e00] rounded bg-[#cbf3f0] select-none cursor-pointer hover:scale-105 hover:duration-300 "
+                  className="letter mms:w-full mms:text-8xl ml:w-[100px] ml:h-[100px] ms:text-8xl text-[#ff9e00] rounded bg-[#cbf3f0] select-none cursor-pointer hover:scale-105 hover:duration-300 "
                   key={letter}
                 >
                   {letter}

@@ -17,17 +17,13 @@ const Gallery = styled.div`
   width: 100%;
 `;
 
-const Sizes = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
+const Sizes = styled.div``;
 const SizesCard = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 150px;
+  height: 150px;
   font-size: 64px;
   cursor: pointer;
 `;
@@ -37,7 +33,6 @@ const CustomSize = styled.div`
 
 function GameFour() {
   const [showModal, setShowModal] = useState(false);
-  const [text, setText] = useState("Seleccione las medidas.");
   const [selectedImg, setSelectedImg] = useState(ImgOne);
   const [size, setSize] = useState({ x: 1, y: 1 });
   const [inputX, setInputX] = useState("");
@@ -45,7 +40,13 @@ function GameFour() {
 
   const ref = useRef(null);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = "hidden"; // Desactivar el scroll del fondo
+    } else {
+      document.body.style.overflow = "auto"; // Habilitar el scroll del fondo
+    }
+  }, [showModal]);
 
   const setSizes = (x, y) => {
     setSize({ x, y });
@@ -60,34 +61,43 @@ function GameFour() {
   };
 
   return (
-    <SelectedGameWrapper className=" pb-[56px] h-auto bg-bg ">
-      <Gallery className=" h-auto [&_div]:mx-[20px] py-[32px] ">
-        <div className=" flex [&_img]:min-w-[250px] [&_div]:cursor-pointer [&_img]:rounded-[10px] justify-center ">
-          <div onClick={() => setSelectedImage(ImgOne)}>
+    <SelectedGameWrapper  className=" pb-[56px] h-auto bg-bg ">
+      <div className=" h-auto [&_div]:mx-[20px] py-[32px] ">
+        <div className=" flex flex-wrap justify-center [&_img]:min-w-[250px] [&_div]:cursor-pointer [&_img]:rounded-[10px] ">
+          <div className=" mb-[20px] " onClick={() => setSelectedImage(ImgOne)}>
             <img src={ImgOne} alt="" className=" w-[200px] " />
           </div>
-          <div onClick={() => setSelectedImage(ImgTwo)}>
+          <div className=" mb-[20px] " onClick={() => setSelectedImage(ImgTwo)}>
             <img src={ImgTwo} alt="" className=" w-[200px] " />
           </div>
-          <div onClick={() => setSelectedImage(ImgThree)}>
+          <div
+            className=" mb-[20px] "
+            onClick={() => setSelectedImage(ImgThree)}
+          >
             <img src={ImgThree} alt="" className=" w-[200px] " />
           </div>
         </div>
-        <div className=" flex [&_img]:min-w-[250px] [&_div]:cursor-pointer [&_img]:rounded-[10px] justify-center mt-[56px] ">
-          <div onClick={() => setSelectedImage(ImgFour)}>
+        <div className=" flex flex-wrap justify-center [&_img]:min-w-[250px] [&_div]:cursor-pointer [&_img]:rounded-[10px] ">
+          <div
+            className=" mb-[20px] "
+            onClick={() => setSelectedImage(ImgFour)}
+          >
             <img src={ImgFour} alt="" className=" w-[200px] " />
           </div>
-          <div onClick={() => setSelectedImage(ImgFive)}>
+          <div
+            className=" mb-[20px] "
+            onClick={() => setSelectedImage(ImgFive)}
+          >
             <img src={ImgFive} alt="" className=" w-[200px] " />
           </div>
-          <div onClick={() => setSelectedImage(ImgSix)}>
+          <div className=" mb-[20px] " onClick={() => setSelectedImage(ImgSix)}>
             <img src={ImgSix} alt="" className=" w-[200px] " />
           </div>
         </div>
-      </Gallery>
+      </div>
 
       <div className=" py-[32px] text-center bg-navbar ">
-        <div className=" mb-2 text-2xl ">
+        <div className=" mb-2 text-3xl text-dark ">
           <h1>Imagen seleccionada</h1>
         </div>
         <div className=" flex justify-center w-full ">
@@ -99,8 +109,13 @@ function GameFour() {
         </div>
       </div>
 
-      <Sizes className=" mt-[32px] px-[20px] h-[200px] bg-navbar ">
-        <div className=" flex justify-between h-full w-[calc(100%-300px)] py-[25px] ">
+      <div className=" mt-[32px] ">
+        <div className=" mb-[3px] text-center ">
+          <h2 className=" text-dark ">
+            <span className=" font-bold ">Nota:</span> Ponga el dispositivo en forma horizontal para jugar.
+          </h2>
+        </div>
+        <Sizes className=" flex justify-center flex-wrap items-center gap-[20px] py-[20px] w-full px-[20px] h-auto bg-navbar ">
           <SizesCard
             onClick={() => setSizes(1, 2)}
             className=" h-full bg-[#3a86ff] rounded-[10px] text-white "
@@ -119,43 +134,46 @@ function GameFour() {
           >
             2x4
           </SizesCard>
-        </div>
 
-        <CustomSize ref={ref} className=" flex flex-col justify-center items-center p-2 w-[calc(100%/5)] h-full ">
-          <div className=" w-full ">
-            <div className=" w-full mb-4 ">
-              <input
-                onChange={(e) => setInputX(e.target.value)}
-                value={inputX}
-                type="text"
-                placeholder="Filas"
-                className=" w-full h-[36px] rounded text-sm indent-2 "
-              />
+          <CustomSize
+            ref={ref}
+            className=" flex flex-col justify-center items-center p-[10px] w-[25px] h-full bg-[#f2c660] rounded "
+          >
+            <div className=" mx-auto w-full ">
+              <div className=" w-full mb-4 ">
+                <input
+                  onChange={(e) => setInputX(e.target.value)}
+                  value={inputX}
+                  type="text"
+                  placeholder="Filas"
+                  className=" w-full h-[36px] rounded text-sm indent-2 "
+                />
+              </div>
+              <div>
+                <input
+                  onChange={(e) => setInputY(e.target.value)}
+                  value={inputY}
+                  type="text"
+                  placeholder="Columnas"
+                  className=" w-full h-[36px] rounded text-sm indent-2 "
+                />
+              </div>
             </div>
-            <div>
-              <input
-                onChange={(e) => setInputY(e.target.value)}
-                value={inputY}
-                type="text"
-                placeholder="Columnas"
-                className=" w-full h-[36px] rounded text-sm indent-2 "
-              />
+            <div className=" mt-4 mx-auto w-full ">
+              <button
+                onClick={() => {
+                  setInputX("");
+                  setInputY("");
+                  setSizes(inputX, inputY);
+                }}
+                className=" bg-primary text-white w-full h-[40px] rounded "
+              >
+                Personalizado
+              </button>
             </div>
-          </div>
-          <div className=" mt-4 w-full ">
-            <button
-              onClick={() => {
-                setInputX("");
-                setInputY("");
-                setSizes(inputX, inputY);
-              }}
-              className=" bg-primary text-white w-full h-[40px] rounded "
-            >
-              Personalizado
-            </button>
-          </div>
-        </CustomSize>
-      </Sizes>
+          </CustomSize>
+        </Sizes>
+      </div>
 
       {showModal && (
         <GameFourModal
