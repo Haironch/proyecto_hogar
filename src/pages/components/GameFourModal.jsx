@@ -44,7 +44,7 @@ function CreateUpdateChildModal({ setShowModal, image, size }) {
       text: "",
       icon: "success",
       confirmButtonColor: "#8338ec",
-      confirmButtonText: "Ir al menu de juegos",
+      confirmButtonText: "Continuar",
     }).then((result) => {
       if (result.isConfirmed) {
         setShowModal(false);

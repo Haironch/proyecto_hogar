@@ -9,7 +9,7 @@ import { Input } from "@nextui-org/react";
 
 import { toast } from "react-toastify";
 
-import logo from "/public/hermano-pedro-hogar-logo.jpeg";
+import logo from "/hermano-pedro-hogar-logo.jpeg";
 
 const schema = yup.object({
   name: yup.string().required("Ingrese su nombre por favor"),

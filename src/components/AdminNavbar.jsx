@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 const AdminNavbarWrapper = styled.div`
@@ -33,7 +33,7 @@ function AdminNavbar({ child, canReturn }) {
   };
 
   return (
-    <AdminNavbarWrapper className=" px-[40px] bg-navbar text-dark border-b-4 border-white ">
+    <AdminNavbarWrapper className=" select-none px-[40px] bg-navbar text-dark border-b-4 border-white ">
       {child === null || child === undefined ? (
         <Link to="/admin/panel" className=" user ">
           <div>

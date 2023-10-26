@@ -3,8 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class Child(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(16), nullable=False)
-    lastname = db.Column(db.String(16), nullable=False)
+    name = db.Column(db.String(20), nullable=False)
+    lastname = db.Column(db.String(20), nullable=False)
     age = db.Column(db.String(2), nullable=False)
     disabilityGrade = db.Column(db.Text, nullable=False)
 

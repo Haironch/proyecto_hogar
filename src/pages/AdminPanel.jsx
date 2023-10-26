@@ -21,7 +21,6 @@ const styleFlex = {
 
 const AdminPanelWrapper = styled.div`
   color: ${colors.secondary};
-height: 100vh;
 `;
 const AdminPanelContainer = styled.div`
   /* ${styleFlex}; */
@@ -65,10 +64,10 @@ function AdminPanel() {
   }, []);
 
   return (
-    <AdminPanelWrapper>
+    <AdminPanelWrapper className=" h-auto overflow-y-auto ">
       <AdminNavbar />
-      <AdminPanelContainer className="relative pb-[68px] bg-bg overflow-y-auto |">
-        <div className=" w-full ">
+      <AdminPanelContainer className="relative pb-[68px] bg-bg ">
+        <div className=" mt-2 pl-2 w-full ">
           <Link
             to="/admin"
             className=" flex justify-center items-center w-[100px] h-[48px] uppercase bg-blue-400 rounded "
@@ -77,8 +76,8 @@ function AdminPanel() {
             Atrás
           </Link>
         </div>
-        <Table className=" w-ful border-b border-dark ">
-          <div className="table-row-header border-y border-dark ">
+        <Table className=" w-ful ">
+          <div className="table-row-header border-b-2 border-dark ">
             <div>Niños</div>
           </div>
           {childs.length > 0 ? (
@@ -96,23 +95,10 @@ function AdminPanel() {
 
 // style sub components
 const ChildRowWrapper = styled.div`
-  ${styleFlex};
-  justify-content: space-between;
-  padding: 0 16px;
-  height: 48px;
-
-  .table-row-name {
-    text-align: start;
-  }
-
-  div {
-    text-align: center;
-    width: 25%;
-  }
 `;
 const OptionsButton = styled(Link)`
   ${styleFlex};
-  width: 100%;
+  width: 200px;
   height: 44px;
   border-radius: 4px;
   border: none;
@@ -123,8 +109,8 @@ const OptionsButton = styled(Link)`
 
 function ChildRow({ child }) {
   return (
-    <ChildRowWrapper>
-      <div className="table-row-name">
+    <ChildRowWrapper className=" mms:flex-col mms:py-2 ts:flex-row flex justify-between items-center my-2 px-4 pb-2 h-auto border-b border-dark ">
+      <div className=" table-row-name mms:mb-3 ts:mb-0 text-center ">
         {child.name} {child.lastname}
       </div>
       <div>

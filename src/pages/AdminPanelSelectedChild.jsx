@@ -10,14 +10,6 @@ import { toast } from "react-toastify";
 import CreateUpdateChildModal from "../components/CreateUpdateChildModal";
 import GamesContext from "../context/games/Context";
 
-const colors = {
-  primary: "#202020",
-  secondary: "#ffffff",
-  fontfamily: "'Chakra Petch', sans-serif",
-  red: "#ef233c",
-  blue: "#52b69a",
-};
-
 const styleFlex = {
   display: "flex;",
   "justify-content": "center;",
@@ -49,15 +41,10 @@ const Table = styled.div`
   width: 100%;
 
   .table-row-header {
-    ${styleFlex};
-    justify-content: space-between;
     font-size: 24px;
     border-bottom: 2px solid white;
     div {
       text-align: center;
-      width: calc(70% / 3);
-    }
-    div:nth-of-type(4) {
       width: 30%;
     }
   }
@@ -107,13 +94,13 @@ function AdminPanel() {
   ];
 
   return (
-    <AdminPanelWrapper>
+    <AdminPanelWrapper className=" pb-[20px] ">
       <AdminNavbar />
-      <AdminPanelContainer className=" relative pb-[68px] bg-bg ">
-        <AdminPanelContent>
+      <AdminPanelContainer className=" relative my-[20px] h-full bg-bg ">
+        <AdminPanelContent className=" h-[calc(100%)] ">
           <ChildHeader child={child} />
           <Table>
-            <div className="table-row-header">
+            <div className="table-row-header mms:hidden ts:flex justify-between items-center ">
               <div>Juego</div>
               <div>Tiempo</div>
               <div>Habilidad Nueva</div>
@@ -135,10 +122,7 @@ function AdminPanel() {
 
 // style sub components
 const ChildRowWrapper = styled.div`
-  ${styleFlex};
-  justify-content: space-between;
   padding: 0 16px;
-  height: 48px;
 
   .table-row-name {
     text-align: start;
@@ -146,18 +130,8 @@ const ChildRowWrapper = styled.div`
 
   div {
     text-align: center;
-    width: 25%;
   }
 `;
-const CompletedIcon = styled.i`
-  color: ${colors.blue};
-  font-size: 32px;
-`;
-const UncompletedIcon = styled.i`
-  color: ${colors.red};
-  font-size: 32px;
-`;
-
 function ChildRow({ game }) {
   const getGameName = (id) => {
     if (id === 1) {
@@ -186,11 +160,16 @@ function ChildRow({ game }) {
   const gameHability = getGameHability(game.id_game);
 
   return (
-    <ChildRowWrapper>
-      <div className="table-row-name">{gameName}</div>
-      <div>{game.time}</div>
-      <div>
-        <p style={{ color: "#34a0a4" }}>{gameHability}</p>
+    <ChildRowWrapper className=" mms:flex-col mms:h-auto ts:flex-row flex h-[48px] justify-between items-center ">
+      <div className="table-row-name mms:flex mms:justify-between mms:w-full ts:justify-center ts:w-[30%] ">
+        <span className=" ts:hidden mr-2 font-bold ">Juego:</span> <p>{gameName}</p>
+      </div>
+      <div className=" my-4 mms:flex mms:justify-between mms:w-full ts:justify-center ts:w-[30%] ">
+        <span className=" ts:hidden mr-2 font-bold ">Tiempo:</span> <p>{game.time}</p>
+      </div>
+      <div className=" mms:flex  mms:justify-between mms:w-full ts:justify-center ts:w-[30%] ">
+        <span className=" ts:hidden mr-2 font-bold ">Habilidad:</span>
+        <p className=" text-dark "> {gameHability}</p>
       </div>
     </ChildRowWrapper>
   );
@@ -221,7 +200,6 @@ const ChildHeaderWrapper = styled.div`
 const Button = styled.button`
   ${styleFlex};
   padding: 8px 18px;
-  width: auto;
   height: 44px;
   border-radius: 4px;
   border: none;
@@ -235,10 +213,7 @@ const Button = styled.button`
 const ButtonUpdate = styled(Button)`
   background-color: #62b6cb;
 `;
-const ButtonDelete = styled(Button)`
-  margin-left: 24px;
-  background-color: ${colors.red};
-`;
+const ButtonDelete = styled(Button)``;
 
 function ChildHeader({ child }) {
   const [showModal, setShowModal] = useState(false);
@@ -268,7 +243,7 @@ function ChildHeader({ child }) {
   };
 
   return (
-    <ChildHeaderWrapper className=" flex flex-col-reverse ">
+    <ChildHeaderWrapper className=" mms:h-auto flex flex-col-reverse h-[150px] ">
       <div className="child w-full ">
         <div>
           <i className="fa-solid fa-user-circle"></i>
@@ -281,22 +256,25 @@ function ChildHeader({ child }) {
           </h1>
         </div>
       </div>
-      <div className="actions flex mb-[32px] w-full ">
+      <div className="actions mms:flex-col ts:flex-row flex mb-[32px] w-full ">
         <div>
           <Link
             to="/admin/panel"
-            className=" flex justify-center items-center w-[100px] h-[48px] uppercase bg-blue-400 rounded "
+            className=" mms:w-full flex justify-center items-center ts:w-[100px] h-[48px] uppercase bg-blue-400 rounded "
           >
             <i className="fa-solid fa-"></i>
             Atrás
           </Link>
         </div>
-        <div className=" flex ">
-          <ButtonUpdate onClick={() => setShowModal(true)}>
+        <div className=" mms:flex-col ts:flex-row flex ">
+          <ButtonUpdate onClick={() => setShowModal(true)} className=" mms:w-auto mms:my-2 ts:my-0 ts:w-[200px] ">
             <i className="fa-solid fa-pen-to-square"></i>
             Modificar datos
           </ButtonUpdate>
-          <ButtonDelete onClick={deleteChild}>
+          <ButtonDelete
+            onClick={deleteChild}
+            className=" mms:ml-0 mms:w-full ts:w-[150px] bg-red-500 ts:ml-[24px] text-white "
+          >
             <i className="fa-solid fa-times-circle"></i>
             Eliminar
           </ButtonDelete>

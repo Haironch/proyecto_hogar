@@ -12,9 +12,9 @@ import { Input } from "@nextui-org/react";
 import GamesContext from "../context/games/Context";
 
 const schema = yup.object({
-  name: yup.string().required("Ingrese el nombre del niño por favor."),
-  lastname: yup.string().required("Ingrese el apellido del niño por favor."),
-  age: yup.string().required("Ingrese la edad del niño por favor."),
+  name: yup.string().required("Ingrese el nombre del niño por favor.").max(20, "El nombre no puede ser mayor a 20 caracteres."),
+  lastname: yup.string().required("Ingrese el apellido del niño por favor.").max(20, "El apellido no puede ser mayor a 20 caracteres."),
+  age: yup.string().required("Ingrese la edad del niño por favor.").max(2, "La edad no puede ser mayor a 2 digitos."),
   disabilityGrade: yup.string().required("Ingrese las observaciones del niño."),
 });
 
@@ -135,6 +135,7 @@ function CreateUpdateChildModal({ setShowModal, state, child }) {
           <InputContainer>
             <Input
               {...register("name")}
+              maxLength={20}
               placeholder="Ingrese nombre del niño"
               defaultValue={state === "CREATE" ? "" : child.name}
             />
@@ -145,6 +146,7 @@ function CreateUpdateChildModal({ setShowModal, state, child }) {
           <InputContainer>
             <Input
               {...register("lastname")}
+              maxLength={20}
               placeholder="Ingrese apellido del niño"
               defaultValue={state === "CREATE" ? "" : child.lastname}
             />
@@ -155,6 +157,7 @@ function CreateUpdateChildModal({ setShowModal, state, child }) {
           <InputContainer>
             <Input
               {...register("age")}
+              maxLength={2}
               type="number"
               placeholder="Ingrese edad del niño"
               defaultValue={state === "CREATE" ? "" : child.age}
